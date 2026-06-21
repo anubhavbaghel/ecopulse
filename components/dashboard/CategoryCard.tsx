@@ -35,7 +35,7 @@ export function CategoryCard({
   const isPositiveTrend = (trend ?? 0) > 0;
 
   return (
-    <div className={`card p-5 flex flex-col gap-3 group ${className}`} style={{ cursor: 'default' }}>
+    <div className={`card p-4 flex flex-col gap-3 group ${className}`} style={{ cursor: 'default' }}>
       {/* Header row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
