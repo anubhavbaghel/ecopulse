@@ -1,103 +1,119 @@
 @import "tailwindcss";
 
-/* ── EcoPulse Design System ─────────────────────────────────────────────────
-   "Google Cloud Design Language" — Clean white surfaces, grey borders, blue accents
+/* ── EcoPulse Design System: "Living Earth" ──────────────────────────────
+   A modern, nature-tech hybrid. Deep greens, electric accents, glassmorphism.
    ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Google Cloud Blue Palette (originally Sage Green) */
-  --color-sage-50:  #e8f0fe;
-  --color-sage-100: #d2e3fc;
-  --color-sage-200: #8ab4f8;
-  --color-sage-300: #4285f4;
-  --color-sage-400: #1a73e8;
-  --color-sage-500: #1a73e8;
-  --color-sage-600: #1a73e8;
-  --color-sage-700: #1557b0;
-  --color-sage-800: #1557b0;
-  --color-sage-900: #0d47a1;
+  /* Living Green Palette */
+  --color-emerald-50:  #f0fdf4;
+  --color-emerald-100: #dcfce7;
+  --color-emerald-200: #bbf7d0;
+  --color-emerald-300: #86efac;
+  --color-emerald-400: #4ade80;
+  --color-emerald-500: #22c55e;
+  --color-emerald-600: #16a34a;
+  --color-emerald-700: #15803d;
+  --color-emerald-800: #166534;
+  --color-emerald-900: #14532d;
+  --color-emerald-950: #022c22;
 
-  /* Google Cloud Light/Dark Neutral Palette (originally Dark Slate) */
-  --color-slate-950: #f1f3f4;
-  --color-slate-900: #f8f9fa; /* GCP Main background */
-  --color-slate-850: #ffffff; /* Sidebar background */
-  --color-slate-800: #ffffff; /* Card background */
-  --color-slate-750: #f1f3f4;
-  --color-slate-700: #ffffff; /* Input background */
-  --color-slate-600: #dadce0; /* Main border color */
-  --color-slate-500: #80868b;
-  --color-slate-400: #5f6368;
+  /* Carbon Pulse Neutrals */
+  --color-zinc-50:  #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
 
-  /* Google Cloud High Contrast Typography Palette (originally Warm Cream) */
-  --color-cream-50:  #ffffff;
-  --color-cream-100: #202124; /* Primary text */
-  --color-cream-200: #3c4043; /* Secondary text */
-  --color-cream-300: #3c4043;
-  --color-cream-400: #5f6368; /* Muted text */
-  --color-cream-500: #70757a;
-
-  /* Accent Green (Success / positive - originally Teal) */
-  --color-teal-300: #ceead6;
-  --color-teal-400: #137333;
-  --color-teal-500: #0f9d58;
-
-  /* Accent Yellow / Orange (Warnings - originally Amber) */
-  --color-amber-300: #feefc3;
-  --color-amber-400: #b06000;
-  --color-amber-500: #f4b400;
-
-  /* Accent Red / Purple (originally Mauve) */
-  --color-mauve-400: #d93025;
-  --color-mauve-500: #a50e0e;
+  /* Electric Accents */
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-violet-500: #8b5cf6;
+  --color-rose-500: #f43f5e;
+  --color-amber-500: #f59e0b;
 
   /* Typography */
-  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Border radius */
-  --radius-xs:  2px;
-  --radius-sm:  4px;
-  --radius-md:  4px;
-  --radius-lg:  8px;
-  --radius-xl:  8px;
-  --radius-2xl: 8px;
-  --radius-3xl: 8px;
+  --radius-xs:  0.25rem;
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-2xl: 2rem;
 }
 
 /* ── Base Reset ───────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
+html, body {
   height: 100%;
 }
 
 body {
-  min-height: 100vh;
-  background-color: #f8f9fa; /* Explicit light mode background */
-  color: #202124; /* Explicit dark text */
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(142, 69%, 95%, 1) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, hsla(142, 69%, 95%, 1) 0, transparent 50%);
+  color: var(--color-zinc-900);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* ── Custom Scrollbar ─────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f8f9fa; }
-::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+/* ── Utility Classes ──────────────────────────────────────────────────────── */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl shadow-black/5;
+  }
 
-/* ── Glass Surfaces ───────────────────────────────────────────────────────── */
-.glass {
-  background: #ffffff;
-  border: 1px solid #dadce0;
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+  .glass-dark {
+    @apply bg-zinc-900/80 backdrop-blur-md border border-zinc-800/50 shadow-2xl;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl active:scale-[0.98];
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
+
+/* ── Shared Animations ────────────────────────────────────────────────────── */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ── Mobile/Desktop Visibility ────────────────────────────────────────────── */
+.mobile-only {
+  @apply block md:hidden;
+}
+
+.desktop-only {
+  @apply hidden md:block;
+}
+
 
 .glass-strong {
   background: #ffffff;
@@ -277,67 +293,36 @@ body {
 
 /* ── Layout ───────────────────────────────────────────────────────────────── */
 .app-layout {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f8f9fa; /* Explicit light Mode */
-}
-
-.sidebar {
-  width: 256px;
-  flex-shrink: 0;
-  background: #ffffff;
-  border-right: 1px solid #dadce0;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 40;
-  padding: 1rem 0;
-  transition: transform 0.3s ease;
+  @apply min-h-screen bg-zinc-50;
 }
 
 .main-content {
-  flex: 1;
-  margin-left: 256px;
-  min-height: 100vh;
-  padding: 1.5rem 2rem;
-  background-color: #f8f9fa; /* Explicit light Mode */
+  @apply pt-20 pb-24 px-4 md:pt-8 md:pb-8 md:pl-72 md:pr-8 transition-all duration-300;
 }
 
-/* Mobile bottom nav */
-.bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  background: #ffffff;
-  border-top: 1px solid #dadce0;
-  padding: 0.5rem 1rem 1rem;
-  box-shadow: 0 -1px 3px 0 rgba(60,64,67,0.1);
-}
-
-@media (max-width: 768px) {
-  .sidebar { display: none; }
-  .main-content { margin-left: 0; padding: 1rem 1rem 5rem; }
-  .bottom-nav { display: flex; justify-content: space-around; align-items: center; }
-}
-
-/* ── Animations ───────────────────────────────────────────────────────────── */
-
+/* Animations */
 @keyframes fade-in {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; opacity: 0; }
+.stagger-2 { animation-delay: 0.2s; opacity: 0; }
+.stagger-3 { animation-delay: 0.3s; opacity: 0; }
+.stagger-4 { animation-delay: 0.4s; opacity: 0; }
 @keyframes fade-in-scale {
   from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: scale(1); }

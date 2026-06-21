@@ -1,6 +1,6 @@
 'use client';
 
-import { Flame } from 'lucide-react';
+import { Flame, Sparkles } from 'lucide-react';
 
 interface StreakBannerProps {
   streak: number;
@@ -8,12 +8,12 @@ interface StreakBannerProps {
 }
 
 const STREAK_MESSAGES: Record<number, string> = {
-  0: 'Set your habits to build a streak',
-  1: "You've started! Complete habits daily to keep it active",
-  3: 'Three days strong! Keep building momentum',
-  7: 'One full week of progress! Excellent consistency',
-  14: 'Two weeks of momentum! Sustainable change active',
-  30: 'A whole month! Remarkable environmental focus',
+  0: 'Start your first habit to ignite your streak.',
+  1: "First spark! Keep it alive tomorrow.",
+  3: 'Momentum building! Three days strong.',
+  7: 'Weekly Warrior! One full week of focus.',
+  14: 'Impact Maker! Two weeks of change.',
+  30: 'Eco-Champion! A month of dedication.',
 };
 
 const getStreakMessage = (streak: number): string => {
@@ -21,7 +21,7 @@ const getStreakMessage = (streak: number): string => {
     .map(Number)
     .sort((a, b) => b - a);
   const matched = milestones.find((m) => streak >= m);
-  return matched !== undefined ? STREAK_MESSAGES[matched] : `${streak} days of continuous progress`;
+  return matched !== undefined ? STREAK_MESSAGES[matched] : `${streak} days of progress.`;
 };
 
 export function StreakBanner({ streak, habitCount }: StreakBannerProps) {
@@ -29,47 +29,54 @@ export function StreakBanner({ streak, habitCount }: StreakBannerProps) {
 
   return (
     <div
-      className="flex items-center gap-3.5 px-4 py-3 rounded border"
-      style={{
-        background: '#e8f0fe',
-        borderColor: '#d2e3fc',
-      }}
+      className={`relative overflow-hidden group px-6 py-5 rounded-[2rem] border transition-all duration-300 ${
+        isActive 
+          ? 'bg-gradient-to-br from-amber-500 to-orange-600 border-amber-400 text-white shadow-lg shadow-amber-500/20' 
+          : 'bg-white border-zinc-100 text-zinc-900 shadow-sm'
+      }`}
     >
-      {/* Flame icon */}
-      <div
-        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-        style={{
-          background: '#ffffff',
-          border: '1px solid #d2e3fc',
-        }}
-      >
-        <Flame
-          size={16}
-          style={{ color: isActive ? '#f9ab00' : '#5f6368' }}
-        />
+      {/* Background Decoration */}
+      <div className={`absolute -right-4 -bottom-4 opacity-10 transition-transform duration-700 group-hover:scale-125 group-hover:rotate-12 ${isActive ? 'text-white' : 'text-zinc-200'}`}>
+        <Flame size={120} strokeWidth={1} />
       </div>
 
-      {/* Text */}
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-bold" style={{ color: '#202124' }}>
-          {streak > 0 ? `${streak}-day habit streak` : 'Streak inactive'}
-        </p>
-        <p className="text-[10px] leading-tight" style={{ color: '#5f6368' }}>
-          {getStreakMessage(streak)}
-        </p>
-      </div>
+      <div className="relative flex items-center gap-5">
+        {/* Icon */}
+        <div
+          className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+            isActive ? 'bg-white/20 backdrop-blur-md' : 'bg-zinc-100'
+          }`}
+        >
+          {isActive ? (
+            <Flame size={24} className="text-white fill-white" />
+          ) : (
+            <Sparkles size={24} className="text-zinc-300" />
+          )}
+        </div>
 
-      {/* Habit count */}
-      {habitCount > 0 && (
-        <div className="text-right flex-shrink-0">
-          <p className="text-sm font-bold tabular" style={{ color: '#137333' }}>
-            {habitCount}
-          </p>
-          <p className="text-[9px] font-semibold" style={{ color: '#5f6368' }}>
-            completed today
+        {/* Text Area */}
+        <div className="flex-1 min-w-0">
+          <h4 className={`text-lg font-black tracking-tight ${isActive ? 'text-white' : 'text-zinc-900'}`}>
+            {streak > 0 ? `${streak} Day Streak` : 'Ignite Growth'}
+          </h4>
+          <p className={`text-xs font-medium leading-relaxed opacity-90 ${isActive ? 'text-amber-50' : 'text-zinc-400'}`}>
+            {getStreakMessage(streak)}
           </p>
         </div>
-      )}
+
+        {/* Stats */}
+        {habitCount > 0 && (
+          <div className={`text-right ${isActive ? 'bg-amber-400/30' : 'bg-emerald-50'} px-3 py-1.5 rounded-xl backdrop-blur-sm border ${isActive ? 'border-white/20' : 'border-emerald-100'} transition-transform duration-300 group-hover:translate-x-1`}>
+            <p className={`text-sm font-black tabular-nums ${isActive ? 'text-white' : 'text-emerald-600'}`}>
+              {habitCount}
+            </p>
+            <p className={`text-[9px] font-bold uppercase tracking-widest ${isActive ? 'text-amber-100' : 'text-emerald-400'}`}>
+              Done
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+

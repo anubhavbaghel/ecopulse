@@ -53,19 +53,24 @@ export const completeOnboarding = async (
   topCategory: string
 ): Promise<void> => {
   const ref = doc(db, 'users', uid);
-  await updateDoc(ref, {
-    mobility: answers.mobility,
-    diet: answers.diet,
-    homeSize: answers.homeSize,
-    renewable: answers.renewable,
-    archetype: archetypeName,
-    archetypeDescription,
-    baselineCo2Kg: dailyCo2Kg,
-    dailyTargetKg: dailyCo2Kg,
-    topCategory,
-    onboardingComplete: true,
-    updatedAt: new Date().toISOString(),
-  });
+  // Use setDoc with merge so this works even if the user profile wasn't created yet
+  await setDoc(
+    ref,
+    {
+      mobility: answers.mobility,
+      diet: answers.diet,
+      homeSize: answers.homeSize,
+      renewable: answers.renewable,
+      archetype: archetypeName,
+      archetypeDescription,
+      baselineCo2Kg: dailyCo2Kg,
+      dailyTargetKg: dailyCo2Kg,
+      topCategory,
+      onboardingComplete: true,
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true }
+  );
 };
 
 export const updateDailyTarget = async (uid: string, targetKg: number): Promise<void> => {

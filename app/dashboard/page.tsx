@@ -14,7 +14,7 @@ import { useHabitStore } from '@/lib/stores/habitStore';
 import { getTodayActivities, getWeeklyDailyTotals, deleteActivity } from '@/lib/firestore/activities';
 import { getHabits, seedDefaultHabits } from '@/lib/firestore/habits';
 import { CategoryType } from '@/types/user';
-import { PenLine, ChevronRight } from 'lucide-react';
+import { PenLine, ChevronRight, Leaf } from 'lucide-react';
 import Link from 'next/link';
 
 const CATEGORIES: CategoryType[] = ['transport', 'diet', 'utilities', 'shopping'];
@@ -83,69 +83,77 @@ function DashboardContent() {
       <Navbar />
 
       <main className="main-content">
-        <div className="max-w-5xl mx-auto w-full">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-1 text-[11px] text-[#5f6368] font-medium mb-3 animate-fade-in">
-            <span>EcoPulse</span>
-            <ChevronRight size={10} className="mt-0.5" />
-            <span className="text-[#202124]">Dashboard</span>
-          </div>
-
-          {/* Header */}
-          <div className="flex items-start justify-between mb-6 animate-fade-in">
-            <div>
-              <p className="text-subheading">{dateStr}</p>
-              <h1 className="font-bold text-[#202124]" style={{ fontSize: 'clamp(1.35rem, 3vw, 1.75rem)', marginTop: '0.25rem' }}>
-                {greeting}, {user?.displayName?.split(' ')[0] ?? 'there'} 🌿
+        <div className="max-w-6xl mx-auto w-full">
+          {/* Header Section */}
+          <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 animate-fade-in">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider">
+                  Live Pulse
+                </span>
+                <span className="text-zinc-400 text-xs font-medium">{dateStr}</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight">
+                {greeting}, <span className="text-emerald-600">{user?.displayName?.split(' ')[0] ?? 'Explorer'}</span>
               </h1>
               {profile?.archetype && (
-                <p className="text-xs mt-0.5" style={{ color: '#5f6368', fontWeight: 500 }}>
-                  Archetype: <span className="text-[#1a73e8]">{profile.archetype}</span>
+                <p className="text-sm font-medium text-zinc-500">
+                  Current Archetype: <span className="text-zinc-900">{profile.archetype}</span>
                 </p>
               )}
             </div>
-            <Link href="/log" className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.82rem', gap: '0.375rem' }}>
-              <PenLine size={13} />
-              Log Activity
+            
+            <Link 
+              href="/log" 
+              className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 text-white font-bold rounded-2xl transition-all duration-300 hover:bg-emerald-600 hover:shadow-xl hover:shadow-emerald-500/20 active:scale-95 overflow-hidden"
+            >
+              <PenLine size={18} className="relative z-10" />
+              <span className="relative z-10">Log Activity</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
-          </div>
+          </header>
 
           {isLoading ? (
-            <div className="flex justify-center py-20">
-              <div
-                className="w-8 h-8 rounded-full border-2 animate-spin"
-                style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
-              />
+            <div className="flex flex-col items-center justify-center py-32 space-y-4">
+              <div className="w-12 h-12 rounded-full border-4 border-zinc-100 border-t-emerald-500 animate-spin" />
+              <p className="text-zinc-400 font-medium animate-pulse">Syncing your climate log...</p>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-12">
-              {/* Left column (8 grid sizes on large screen) */}
-              <div className="md:col-span-5 flex flex-col gap-6">
-                {/* Pulse Gauge */}
-                <div
-                  className="card flex flex-col items-center py-6 px-4 animate-fade-in-up stagger-1"
-                >
+            <div className="grid gap-8 lg:grid-cols-12">
+              {/* Left Side: Summary & Trends */}
+              <div className="lg:col-span-5 space-y-8">
+                {/* Main Gauge Card */}
+                <section className="glass rounded-[2rem] p-8 flex flex-col items-center relative overflow-hidden animate-fade-in-up stagger-1">
+                  <div className="absolute top-0 right-0 p-6">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                      <Leaf size={24} />
+                    </div>
+                  </div>
                   <PulseGauge current={todayTotalKg} target={dailyTargetKg} />
-                </div>
+                  <div className="mt-6 text-center">
+                    <p className="text-zinc-500 text-sm font-medium">Daily Carbon Footprint</p>
+                    <p className="text-zinc-400 text-xs mt-1 italic">Target: {dailyTargetKg}kg CO₂e</p>
+                  </div>
+                </section>
 
-                {/* Streak */}
+                {/* Streak Banner with New Look */}
                 <div className="animate-fade-in-up stagger-2">
-                  <StreakBanner streak={maxStreak} habitCount={completedHabitsToday} />
+                   <StreakBanner streak={maxStreak} habitCount={completedHabitsToday} />
                 </div>
 
-                {/* Weekly sparkline */}
-                <div className="card p-5 animate-fade-in-up stagger-3">
-                  <p className="text-subheading mb-4">7-Day Trend</p>
+                {/* Weekly Trends */}
+                <section className="bg-white border border-zinc-100 rounded-[2rem] p-6 shadow-sm animate-fade-in-up stagger-3">
+                  <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest mb-6 px-2">Weekly Performance</h3>
                   <WeeklySparkline data={weeklyData} />
-                </div>
+                </section>
               </div>
 
-              {/* Right column (7 grid sizes on large screen) */}
-              <div className="md:col-span-7 flex flex-col gap-6">
-                {/* Category cards */}
-                <div className="animate-fade-in-up stagger-2">
-                  <p className="text-subheading mb-3">Today by Category</p>
-                  <div className="grid grid-cols-2 gap-3">
+              {/* Right Side: Details & Log */}
+              <div className="lg:col-span-7 space-y-8">
+                {/* Category Breakdown */}
+                <section className="animate-fade-in-up stagger-2">
+                  <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest mb-4">Breakdown by Source</h3>
+                  <div className="grid grid-cols-2 gap-4">
                     {CATEGORIES.map((cat) => {
                       const catTotal = categoryTotals[cat] ?? 0;
                       const pct = todayTotalKg > 0 ? (catTotal / todayTotalKg) * 100 : 0;
@@ -159,18 +167,22 @@ function DashboardContent() {
                       );
                     })}
                   </div>
-                </div>
+                </section>
 
-                {/* Activity feed */}
-                <div className="animate-fade-in-up stagger-3">
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-subheading">Today's Activity Log</p>
-                    <span className="text-xs font-semibold" style={{ color: '#5f6368' }}>
-                      {activities.length} entries
-                    </span>
+                {/* Activity Feed Overhaul */}
+                <section className="animate-fade-in-up stagger-3">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest">Recent Activity</h3>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
+                        {activities.length} Entries
+                      </span>
+                    </div>
                   </div>
-                  <DailyFeed activities={activities} onDelete={handleDeleteActivity} />
-                </div>
+                  <div className="bg-white border border-zinc-100 rounded-[2rem] p-2 shadow-sm">
+                    <DailyFeed activities={activities} onDelete={handleDeleteActivity} />
+                  </div>
+                </section>
               </div>
             </div>
           )}
