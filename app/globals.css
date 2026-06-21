@@ -285,13 +285,6 @@ body {
   background-color: #f8f9fa; /* Explicit light Mode */
 }
 
-/* ── Layout ───────────────────────────────────────────────────────────────── */
-.app-layout {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f8f9fa; /* Explicit light Mode */
-}
-
 .sidebar {
   width: 256px;
   flex-shrink: 0;
@@ -304,7 +297,7 @@ body {
   left: 0;
   height: 100vh;
   z-index: 40;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   transition: transform 0.3s ease;
 }
 
@@ -334,9 +327,8 @@ body {
 
 @media (max-width: 768px) {
   .sidebar { display: none; }
-  .main-content { margin-left: 0 !important; padding: 1rem 1rem 5rem; margin-top: 48px; min-height: calc(100vh - 48px); }
+  .main-content { margin-left: 0; padding: 1rem 1rem 5rem; }
   .bottom-nav { display: flex; justify-content: space-around; align-items: center; }
-  .cloud-shell { left: 0 !important; }
 }
 
 /* ── Animations ───────────────────────────────────────────────────────────── */

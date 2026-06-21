@@ -50,19 +50,16 @@ export function Navbar() {
 
         {/* Nav Links */}
         <nav className="flex-1 flex flex-col gap-0.5">
-          {navLinks.map(({ href, label, icon: Icon }) => {
-            const isActive = pathname === href || pathname.startsWith(href + '/');
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`nav-link ${isActive ? 'active' : ''}`}
-              >
-                <Icon size={16} className="flex-shrink-0" />
-                <span>{label}</span>
-              </Link>
-            );
-          })}
+          {navLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`nav-link ${pathname === href || pathname.startsWith(href + '/') ? 'active' : ''}`}
+            >
+              <Icon size={18} />
+              {label}
+            </Link>
+          ))}
         </nav>
 
         {/* User / Sign-out */}
@@ -98,10 +95,10 @@ export function Navbar() {
             </div>
             <button
               onClick={handleSignOut}
-              className="nav-link w-full rounded hover:bg-gray-100 py-2 px-2.5 flex items-center gap-2 justify-start cursor-pointer"
+              className="nav-link w-full rounded hover:bg-gray-100 py-2 px-2.5 flex items-center gap-2 justify-start"
               style={{ color: '#5f6368', borderLeft: 'none', paddingLeft: '0.5rem' }}
             >
-              <LogOut size={14} />
+              <LogOut size={16} />
               <span className="text-xs">Sign out</span>
             </button>
           </div>

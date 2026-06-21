@@ -124,15 +124,9 @@ function DashboardContent() {
               {/* Left column (8 grid sizes on large screen) */}
               <div className="md:col-span-5 flex flex-col gap-6">
                 {/* Pulse Gauge */}
-                <div className="card flex flex-col items-center py-5 px-4 animate-fade-in-up stagger-1">
-                  <div className="w-full flex items-center justify-between border-b border-[#dadce0] pb-2.5 mb-4 px-1">
-                    <span className="text-[10px] font-bold text-[#5f6368] uppercase tracking-wider">Carbon Telemetry</span>
-                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${
-                      todayTotalKg > dailyTargetKg ? 'bg-[#fce8e6] text-[#d93025] border-[#fad2cf]' : 'bg-[#e6f4ea] text-[#137333] border-[#ceead6]'
-                    }`}>
-                      {todayTotalKg > dailyTargetKg ? 'LIMIT_EXCEEDED' : 'STATUS_OK'}
-                    </span>
-                  </div>
+                <div
+                  className="card flex flex-col items-center py-6 px-4 animate-fade-in-up stagger-1"
+                >
                   <PulseGauge current={todayTotalKg} target={dailyTargetKg} />
                 </div>
 

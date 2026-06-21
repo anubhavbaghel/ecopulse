@@ -78,8 +78,8 @@ export function CategoryCard({
             kg CO₂e
           </span>
         </div>
-        <Link href="/log" className="w-5.5 h-5.5 rounded bg-white border border-[#dadce0] text-gray-500 hover:bg-[#e8f0fe] hover:text-[#1a73e8] hover:border-[#d2e3fc] transition-all flex items-center justify-center flex-shrink-0" title={`Log ${category}`}>
-          <Plus size={11} />
+        <Link href="/log" className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-50 border border-gray-200 text-gray-500 opacity-0 group-hover:opacity-100 hover:bg-[#e8f0fe] hover:text-[#1a73e8] hover:border-[#d2e3fc] transition-all">
+          <Plus size={12} />
         </Link>
       </div>
 
