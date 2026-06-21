@@ -12,14 +12,15 @@ export function WeeklySparkline({ data, height = 76, width = 280 }: WeeklySparkl
   // Map to Mon-Sun index
   const todayIdx = today === 0 ? 6 : today - 1;
 
-  const maxVal = Math.max(...data, 0.1);
-  const padH = 10;
+  const maxVal = Math.max(...data, 1);
+  const padLeft = 32;
+  const padRight = 10;
   const padV = 10;
-  const usableH = width - padH * 2;
+  const usableH = width - padLeft - padRight;
   const usableV = height - padV * 2;
 
   const points = data.map((v, i) => ({
-    x: padH + (i / (data.length - 1)) * usableH,
+    x: padLeft + (i / (data.length - 1)) * usableH,
     y: padV + usableV - (v / maxVal) * usableV,
     value: v,
     day: days[(todayIdx - 6 + i + 7) % 7],
@@ -42,16 +43,36 @@ export function WeeklySparkline({ data, height = 76, width = 280 }: WeeklySparkl
         </defs>
 
         {/* Horizontal grid lines */}
-        {[0.25, 0.5, 0.75, 1.0].map((f) => (
+        {[0.0, 0.5, 1.0].map((f) => (
           <line
             key={f}
-            x1={padH}
+            x1={padLeft}
             y1={padV + usableV * (1 - f)}
-            x2={width - padH}
+            x2={width - padRight}
             y2={padV + usableV * (1 - f)}
             stroke="#f1f3f4"
             strokeWidth="1"
           />
+        ))}
+
+        {/* Y-Axis Labels */}
+        {[
+          { f: 1.0, val: `${maxVal.toFixed(1)}` },
+          { f: 0.5, val: `${(maxVal / 2).toFixed(1)}` },
+          { f: 0.0, val: '0.0' },
+        ].map(({ f, val }) => (
+          <text
+            key={f}
+            x={padLeft - 6}
+            y={padV + usableV * (1 - f) + 3}
+            textAnchor="end"
+            fill="#70757a"
+            fontSize="7.5"
+            fontFamily="Inter, sans-serif"
+            className="tabular"
+          >
+            {val}
+          </text>
         ))}
 
         {/* Area fill */}
@@ -62,7 +83,7 @@ export function WeeklySparkline({ data, height = 76, width = 280 }: WeeklySparkl
           d={pathD}
           fill="none"
           stroke="#1a73e8"
-          strokeWidth="2"
+          strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -73,10 +94,10 @@ export function WeeklySparkline({ data, height = 76, width = 280 }: WeeklySparkl
             <circle
               cx={p.x}
               cy={p.y}
-              r={3}
+              r={2.5}
               fill={i === 6 ? '#1a73e8' : '#ffffff'}
               stroke="#1a73e8"
-              strokeWidth="1.5"
+              strokeWidth="1.2"
             />
             {/* Day label */}
             <text
