@@ -106,21 +106,28 @@ export function Navbar() {
       </aside>
 
       {/* ── Mobile Bottom Nav ────────────────────────────────────────────── */}
-      <nav className="bottom-nav">
+      <nav className="bottom-nav flex justify-around items-center">
         {navLinks.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || pathname.startsWith(href + '/');
           return (
             <Link
               key={href}
               href={href}
-              className="flex flex-col items-center gap-1 py-1 px-3 rounded transition-all"
+              className="flex-1 flex flex-col items-center justify-center py-1 transition-all cursor-pointer"
               style={{
                 color: isActive ? '#1a73e8' : '#5f6368',
-                background: isActive ? '#e8f0fe' : 'transparent',
               }}
             >
-              <Icon size={18} />
-              <span style={{ fontSize: '0.65rem', fontWeight: 500 }}>{label}</span>
+              <div
+                className={`flex items-center justify-center px-4.5 py-1 rounded-full transition-all duration-200 ${
+                  isActive ? 'bg-[#e8f0fe]' : 'bg-transparent hover:bg-gray-100/50'
+                }`}
+              >
+                <Icon size={18} style={{ color: isActive ? '#1a73e8' : '#5f6368' }} />
+              </div>
+              <span className="mt-1 block" style={{ fontSize: '0.65rem', fontWeight: isActive ? 600 : 500 }}>
+                {label}
+              </span>
             </Link>
           );
         })}

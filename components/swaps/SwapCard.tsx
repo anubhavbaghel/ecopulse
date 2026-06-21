@@ -53,13 +53,13 @@ export function SwapCard({ swap, index }: SwapCardProps) {
 
       {/* From → To Actions */}
       <div
-        className="rounded border border-[#dadce0] p-3.5 flex items-center gap-3.5 bg-[#f8f9fa]"
+        className="rounded border border-[#dadce0] p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 bg-[#f8f9fa]"
       >
         <div className="flex-1 min-w-0">
           <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: '#5f6368' }}>Current</p>
           <p className="text-xs font-semibold" style={{ color: '#5f6368' }}>{swap.from_action}</p>
         </div>
-        <ArrowRight size={15} style={{ color: '#1a73e8', flexShrink: 0 }} />
+        <ArrowRight size={15} className="rotate-90 sm:rotate-0 self-center sm:self-auto" style={{ color: '#1a73e8', flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
           <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: '#137333' }}>Alternative</p>
           <p className="text-xs font-bold" style={{ color: '#137333' }}>{swap.to_action}</p>

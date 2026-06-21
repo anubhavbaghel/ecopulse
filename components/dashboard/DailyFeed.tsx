@@ -47,7 +47,7 @@ export function DailyFeed({ activities, onDelete }: DailyFeedProps) {
           <thead>
             <tr className="bg-[#f8f9fa] border-b border-[#dadce0] text-[#5f6368] font-bold uppercase tracking-wider text-[10px]">
               <th className="px-4 py-2.5">Activity</th>
-              <th className="px-4 py-2.5">Category</th>
+              <th className="px-4 py-2.5 hidden sm:table-cell">Category</th>
               <th className="px-4 py-2.5 text-right">Quantity</th>
               <th className="px-4 py-2.5 text-right">CO₂ Emission</th>
               {onDelete && <th className="px-4 py-2.5 w-10"></th>}
@@ -72,14 +72,14 @@ export function DailyFeed({ activities, onDelete }: DailyFeedProps) {
                       >
                         <Icon size={12} style={{ color: config.color }} />
                       </div>
-                      <span className="truncate max-w-[200px]" title={activity.label}>
+                      <span className="truncate max-w-[120px] sm:max-w-[200px]" title={activity.label}>
                         {activity.label}
                       </span>
                     </div>
                   </td>
 
                   {/* Category badge */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 hidden sm:table-cell">
                     <span
                       className="badge capitalize font-semibold"
                       style={{
@@ -109,7 +109,7 @@ export function DailyFeed({ activities, onDelete }: DailyFeedProps) {
                     <td className="px-4 py-3 text-center">
                       <button
                         onClick={() => onDelete(activity.id)}
-                        className="text-[#80868b] hover:text-[#d93025] opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-gray-100 cursor-pointer"
+                        className="text-[#80868b] hover:text-[#d93025] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-gray-100 cursor-pointer"
                         aria-label="Delete entry"
                       >
                         <Trash2 size={13} />

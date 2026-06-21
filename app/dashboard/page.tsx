@@ -92,7 +92,7 @@ function DashboardContent() {
           </div>
 
           {/* Header */}
-          <div className="flex items-start justify-between mb-6 animate-fade-in">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 animate-fade-in">
             <div>
               <p className="text-subheading">{dateStr}</p>
               <h1 className="font-bold text-[#202124]" style={{ fontSize: 'clamp(1.35rem, 3vw, 1.75rem)', marginTop: '0.25rem' }}>
@@ -104,10 +104,12 @@ function DashboardContent() {
                 </p>
               )}
             </div>
-            <Link href="/log" className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.82rem', gap: '0.375rem' }}>
-              <PenLine size={13} />
-              Log Activity
-            </Link>
+            <div className="self-start sm:self-auto">
+              <Link href="/log" className="btn-primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.82rem', gap: '0.375rem' }}>
+                <PenLine size={13} />
+                Log Activity
+              </Link>
+            </div>
           </div>
 
           {isLoading ? (
