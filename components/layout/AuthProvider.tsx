@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [reset, setLoading, setProfile, setUser]);
 
   if (initError) {
     return (

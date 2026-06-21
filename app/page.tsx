@@ -80,7 +80,7 @@ export default function LandingPage() {
           className="badge badge-teal text-xs"
           style={{ padding: '0.25rem 0.75rem' }}
         >
-          MVP · v1.0
+          MVP - v1.0
         </span>
       </header>
 
@@ -91,7 +91,7 @@ export default function LandingPage() {
           className="badge badge-teal mb-6 animate-fade-in text-center mx-auto"
           style={{ fontSize: '0.75rem', padding: '0.3rem 0.85rem' }}
         >
-          🌿 Your personal climate companion
+          Your personal climate companion
         </div>
 
         {/* Headline */}
@@ -115,7 +115,7 @@ export default function LandingPage() {
             animationDelay: '0.2s',
           }}
         >
-          EcoPulse turns your daily choices into a beautifully clear picture of your environmental footprint — then shows you exactly how to improve it.
+          EcoPulse turns your daily choices into a beautifully clear picture of your environmental footprint - then shows you exactly how to improve it.
         </p>
 
         {/* CTA */}
@@ -145,7 +145,7 @@ export default function LandingPage() {
                   className="w-4 h-4 rounded-full border-2 animate-spin"
                   style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
                 />
-                Signing in…
+                Signing in...
               </>
             ) : (
               <>
@@ -214,7 +214,7 @@ export default function LandingPage() {
         style={{ backgroundColor: '#ffffff' }}
       >
         <p className="text-xs text-center" style={{ color: '#5f6368' }}>
-          Powered by Gemini AI · Firebase · Next.js 15
+          Powered by Gemini AI - Firebase - Next.js 16
         </p>
       </footer>
     </main>

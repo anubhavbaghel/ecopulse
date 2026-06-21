@@ -29,7 +29,7 @@ export const useHabits = () => {
     } finally {
       setLoading(false);
     }
-  }, [user, hasLoaded]);
+  }, [user, hasLoaded, setHabits, setLoading]);
 
   useEffect(() => {
     loadHabits();

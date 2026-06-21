@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
-export default function proxy(_request: NextRequest) {
+export default function proxy() {
   const response = NextResponse.next();
 
   response.headers.set('X-Content-Type-Options', 'nosniff');

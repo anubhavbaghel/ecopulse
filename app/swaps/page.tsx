@@ -38,7 +38,7 @@ function SwapsContent() {
     } finally {
       setLoading(false);
     }
-  }, [profile, weeklyAvgCo2]);
+  }, [profile, setLoading, setSwaps, weeklyAvgCo2]);
 
   return (
     <div className="app-layout">

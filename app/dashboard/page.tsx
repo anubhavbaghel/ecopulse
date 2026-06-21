@@ -31,7 +31,6 @@ function DashboardContent() {
 
   useEffect(() => {
     if (!user) return;
-    setLoadError('');
 
     const loadData = async () => {
       try {
@@ -41,6 +40,7 @@ function DashboardContent() {
           hasLoaded ? Promise.resolve(null) : getHabits(user.uid),
         ]);
 
+        setLoadError('');
         setActivities(todayActs);
         setWeeklyData(weekly);
 
@@ -64,7 +64,7 @@ function DashboardContent() {
     };
 
     loadData();
-  }, [user, profile, hasLoaded]);
+  }, [user, profile, hasLoaded, setActivities, setDailyTarget, setHabits, setWeeklyData]);
 
   const handleDeleteActivity = async (id: string) => {
     if (!user) return;

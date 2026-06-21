@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -49,9 +50,11 @@ export function Navbar() {
         </div>
         <div className="flex items-center gap-3">
            {user?.photoURL ? (
-              <img
+              <Image
                 src={user.photoURL}
                 alt="Your profile photo"
+                width={32}
+                height={32}
                 className="w-8 h-8 rounded-full border-2 border-emerald-500/20"
               />
             ) : (
@@ -108,9 +111,11 @@ export function Navbar() {
         <div className="mt-auto p-6 border-t border-zinc-100 bg-zinc-50/50">
           <div className="flex items-center gap-3 mb-4">
             {user?.photoURL ? (
-              <img
+              <Image
                 src={user.photoURL}
                 alt="Your profile photo"
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full border-2 border-white shadow-sm"
               />
             ) : (
