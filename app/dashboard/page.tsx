@@ -124,7 +124,7 @@ function DashboardContent() {
               {/* Left column (8 grid sizes on large screen) */}
               <div className="md:col-span-5 flex flex-col gap-6">
                 {/* Pulse Gauge */}
-                <div className="card flex flex-col items-center py-5 px-4 animate-fade-in-up stagger-1">
+                <div className="card flex flex-col items-center p-6 pb-8 animate-fade-in-up stagger-1">
                   <div className="w-full flex items-center justify-between border-b border-[#dadce0] pb-2.5 mb-4 px-1">
                     <span className="text-[10px] font-bold text-[#5f6368] uppercase tracking-wider">Carbon Telemetry</span>
                     <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${
@@ -142,7 +142,7 @@ function DashboardContent() {
                 </div>
 
                 {/* Weekly sparkline */}
-                <div className="card p-5 animate-fade-in-up stagger-3">
+                <div className="card p-6 animate-fade-in-up stagger-3">
                   <p className="text-subheading mb-4">7-Day Trend</p>
                   <WeeklySparkline data={weeklyData} />
                 </div>
