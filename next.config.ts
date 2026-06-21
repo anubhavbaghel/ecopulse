@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'googleusercontent.com' },
     ],
   },
+  output: 'standalone',
   experimental: {
     optimizePackageImports: ['lucide-react', '@google/genai'],
   },
