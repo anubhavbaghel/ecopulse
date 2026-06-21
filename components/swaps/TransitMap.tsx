@@ -95,7 +95,7 @@ export function TransitMap({ routeId = 'commute-main' }: TransitMapProps) {
                 style={{ color: isSelected ? '#1a73e8' : '#5f6368' }}
               />
               <span
-                className="text-[9px] font-semibold hidden sm:block"
+                className="text-[9px] font-semibold"
                 style={{
                   color: isSelected ? '#202124' : '#5f6368',
                 }}

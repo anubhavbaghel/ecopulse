@@ -64,12 +64,12 @@ function HabitsContent() {
                 className="grid grid-cols-3 gap-3 animate-fade-in-up stagger-2"
               >
                 {[
-                  { label: <><span className="hidden sm:inline">Today's </span>Progress</>, value: `${completedCount}/${totalCount}`, color: '#1a73e8' },
-                  { label: <>Completion<span className="hidden sm:inline"> rate</span></>, value: `${Math.round(completionRate)}%`, color: '#b06000' },
-                  { label: <><span className="hidden sm:inline">CO₂ potential saving</span><span className="inline sm:hidden">CO₂ savings</span></>, value: `-${totalSavingPotential.toFixed(1)} kg`, color: '#137333' },
-                ].map(({ label, value, color }, idx) => (
+                  { label: "Today's progress", value: `${completedCount}/${totalCount}`, icon: CheckSquare, color: '#1a73e8' },
+                  { label: 'Completion rate', value: `${Math.round(completionRate)}%`, icon: Flame, color: '#b06000' },
+                  { label: 'CO₂ potential saving', value: `-${totalSavingPotential.toFixed(1)} kg`, icon: Flame, color: '#137333' },
+                ].map(({ label, value, color }) => (
                   <div
-                    key={idx}
+                    key={label}
                     className="card p-3 text-center bg-white border border-[#dadce0] shadow-sm"
                   >
                     <p className="text-base font-bold tabular-nums" style={{ color }}>{value}</p>

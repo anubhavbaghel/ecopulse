@@ -104,7 +104,7 @@ function LogContent() {
           </div>
 
           {/* Category tabs (GCP style underlined) */}
-          <div className="flex overflow-x-auto scrollbar-none flex-nowrap border-b border-[#dadce0] mb-6 animate-fade-in-up stagger-1 bg-white px-2">
+          <div className="flex border-b border-[#dadce0] mb-6 animate-fade-in-up stagger-1 bg-white px-2">
             {TABS.map(({ id, label, icon: Icon }) => {
               const isActive = id === activeTab;
               const tabColor = CATEGORY_COLORS[id];
@@ -112,7 +112,7 @@ function LogContent() {
                 <button
                   key={id}
                   onClick={() => handleTabChange(id)}
-                  className="flex items-center justify-center gap-2 py-3 px-4 sm:px-5 border-b-2 font-semibold text-xs transition-all cursor-pointer flex-shrink-0 flex-1 sm:flex-none"
+                  className="flex items-center gap-2 py-3 px-5 border-b-2 font-semibold text-xs transition-all cursor-pointer"
                   style={{
                     borderBottomColor: isActive ? tabColor : 'transparent',
                     color: isActive ? tabColor : '#5f6368',
