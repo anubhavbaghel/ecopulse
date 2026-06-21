@@ -5,6 +5,7 @@ interface HabitStore {
   habits: Habit[];
   totalStreakDays: number;
   isLoading: boolean;
+  hasLoaded: boolean;
 
   setHabits: (habits: Habit[]) => void;
   toggleComplete: (habitId: string, completed: boolean) => void;
@@ -17,11 +18,13 @@ export const useHabitStore = create<HabitStore>()((set) => ({
   habits: [],
   totalStreakDays: 0,
   isLoading: false,
+  hasLoaded: false,
 
   setHabits: (habits) =>
     set({
       habits,
       totalStreakDays: habits.reduce((s, h) => s + h.currentStreak, 0),
+      hasLoaded: true,
     }),
 
   toggleComplete: (habitId, completed) =>
@@ -43,5 +46,5 @@ export const useHabitStore = create<HabitStore>()((set) => ({
     })),
 
   setLoading: (loading) => set({ isLoading: loading }),
-  reset: () => set({ habits: [], totalStreakDays: 0, isLoading: false }),
+  reset: () => set({ habits: [], totalStreakDays: 0, isLoading: false, hasLoaded: false }),
 }));

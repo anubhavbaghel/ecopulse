@@ -51,7 +51,7 @@ export function Navbar() {
            {user?.photoURL ? (
               <img
                 src={user.photoURL}
-                alt="avatar"
+                alt="Your profile photo"
                 className="w-8 h-8 rounded-full border-2 border-emerald-500/20"
               />
             ) : (
@@ -82,6 +82,7 @@ export function Navbar() {
               <Link
                 key={href}
                 href={href}
+                aria-label={`Navigate to ${label}`}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                   isActive(href)
                     ? 'bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-100'
@@ -109,7 +110,7 @@ export function Navbar() {
             {user?.photoURL ? (
               <img
                 src={user.photoURL}
-                alt="avatar"
+                alt="Your profile photo"
                 className="w-10 h-10 rounded-full border-2 border-white shadow-sm"
               />
             ) : (
@@ -126,10 +127,11 @@ export function Navbar() {
           </div>
           
           <div className="grid grid-cols-2 gap-2">
-            <button className="flex items-center justify-center p-2 rounded-lg bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all">
+            <button aria-label="Settings" className="flex items-center justify-center p-2 rounded-lg bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all">
               <Settings size={18} />
             </button>
             <button
+              aria-label="Sign out"
               onClick={handleSignOut}
               className="flex items-center justify-center p-2 rounded-lg bg-white border border-zinc-200 text-zinc-500 hover:text-rose-600 hover:border-rose-100 hover:bg-rose-50 transition-all"
             >
@@ -145,6 +147,7 @@ export function Navbar() {
           <Link
             key={href}
             href={href}
+            aria-label={label}
             className={`flex flex-col items-center gap-1 px-4 transition-all duration-200 ${
               isActive(href) ? 'text-emerald-600' : 'text-zinc-400'
             }`}

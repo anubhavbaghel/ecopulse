@@ -20,11 +20,13 @@ const db = getFirestore(app);
 
 // Lazily initialise Analytics (browser only)
 if (typeof window !== 'undefined') {
-  import('firebase/analytics').then(({ getAnalytics, isSupported }) => {
-    isSupported().then((supported) => {
-      if (supported) getAnalytics(app);
-    });
-  });
+  import('firebase/analytics')
+    .then(({ getAnalytics, isSupported }) =>
+      isSupported().then((supported) => {
+        if (supported) getAnalytics(app);
+      })
+    )
+    .catch((e) => console.error('Analytics init failed:', e));
 }
 
 export { app, auth, db };

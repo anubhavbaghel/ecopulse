@@ -1,17 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { upsertUserProfile } from '@/lib/firestore/users';
 
-/**
- * Bootstraps Firebase Auth state into Zustand at the app root.
- * Must wrap all pages that need auth access.
- */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setUser, setProfile, setLoading, reset } = useAuthStore();
+  const [initError, setInitError] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -27,6 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setProfile(prof);
         } catch (err) {
           console.error('Profile load error:', err);
+          setInitError(true);
         }
       } else {
         reset();
@@ -36,6 +34,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => unsubscribe();
   }, []);
+
+  if (initError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
+        <div className="text-center space-y-4">
+          <p className="text-[#d93025] font-medium">
+            Failed to load your profile. Please try refreshing the page.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 text-sm font-medium text-white rounded"
+            style={{ background: '#1a73e8' }}
+          >
+            Reload
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return <>{children}</>;
 }

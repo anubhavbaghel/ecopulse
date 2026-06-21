@@ -9,12 +9,31 @@ import { AuthGuard } from '@/components/layout/AuthGuard';
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user } = useAuthStore();
-  const [loading, setLoading] = useState(false);
+  const { user, loading: authLoading } = useAuthStore();
+  const [submitting, setSubmitting] = useState(false);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
+        <div
+          className="w-8 h-8 rounded-full border-2 animate-spin"
+          style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
+        />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <AuthGuard requireOnboarding={false}>
+        <div />
+      </AuthGuard>
+    );
+  }
 
   const handleQuickComplete = async () => {
     if (!user) return;
-    setLoading(true);
+    setSubmitting(true);
     try {
       const fb = ARCHETYPE_FALLBACKS.default;
       await completeOnboarding(
@@ -29,25 +48,17 @@ export default function OnboardingPage() {
     } catch (err) {
       console.error('Onboarding quick complete failed', err);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
-
-  if (!user) {
-    return (
-      <AuthGuard requireOnboarding={false}>
-        <div />
-      </AuthGuard>
-    );
-  }
 
   return (
     <main className="min-h-screen flex items-center justify-center">
       <div className="max-w-lg w-full p-8">
         <h1 className="text-2xl font-bold mb-4">Onboarding</h1>
-        <p className="mb-6 text-sm text-zinc-600">Complete a quick profile to get started. (Simplified for dev build.)</p>
-        <button onClick={handleQuickComplete} disabled={loading} className="btn-primary">
-          {loading ? 'Completing…' : 'Complete Onboarding'}
+        <p className="mb-6 text-sm text-zinc-600">Complete a quick profile to get started.</p>
+        <button onClick={handleQuickComplete} disabled={submitting} className="btn-primary">
+          {submitting ? 'Completing…' : 'Complete Onboarding'}
         </button>
       </div>
     </main>

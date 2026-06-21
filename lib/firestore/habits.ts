@@ -3,23 +3,21 @@ import {
   doc,
   addDoc,
   setDoc,
+  deleteDoc,
   getDocs,
   updateDoc,
   query,
   where,
-  orderBy,
   getDoc,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Habit, HabitCompletion, DefaultHabit } from '@/types/habit';
+import { Habit, HabitCompletion } from '@/types/habit';
 import { DEFAULT_HABITS } from '@/lib/constants';
+import { todayString } from '@/lib/utils/date';
 
 const habitsRef = (uid: string) => collection(db, 'users', uid, 'habits');
 const completionsRef = (uid: string, habitId: string) =>
   collection(db, 'users', uid, 'habits', habitId, 'completions');
-
-export const todayString = (): string =>
-  new Date().toISOString().split('T')[0];
 
 // Seed default habits for new users
 export const seedDefaultHabits = async (uid: string): Promise<Habit[]> => {
@@ -105,7 +103,7 @@ export const uncompleteHabit = async (
   const habit = habitSnap.data() as Habit;
 
   // Remove today's completion
-  await setDoc(doc(completionsRef(uid, habitId), today), {});
+  await deleteDoc(doc(completionsRef(uid, habitId), today));
 
   // Decrement streak (min 0)
   const newStreak = Math.max(0, habit.currentStreak - 1);

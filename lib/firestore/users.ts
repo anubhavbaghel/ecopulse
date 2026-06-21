@@ -3,7 +3,6 @@ import {
   setDoc,
   getDoc,
   updateDoc,
-  serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { UserProfile, OnboardingAnswers } from '@/types/user';

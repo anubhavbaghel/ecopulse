@@ -32,13 +32,23 @@ const FALLBACK_SWAPS: SwapSuggestion[] = [
   },
 ];
 
+const VALID_ENDPOINTS = ['archetype', 'swaps'] as const;
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { endpoint, payload } = body as {
-      endpoint: 'archetype' | 'swaps';
+      endpoint: string;
       payload: Record<string, unknown>;
     };
+
+    if (!endpoint || !VALID_ENDPOINTS.includes(endpoint as typeof VALID_ENDPOINTS[number])) {
+      return NextResponse.json({ error: 'Invalid endpoint' }, { status: 400 });
+    }
+
+    if (!payload || typeof payload !== 'object') {
+      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    }
 
     if (endpoint === 'archetype') {
       const answers = payload as unknown as OnboardingAnswers;
@@ -70,10 +80,20 @@ export async function POST(req: NextRequest) {
 
     if (endpoint === 'swaps') {
       const { archetype, topCategory, weeklyAvgCo2 } = payload as {
-        archetype: string;
-        topCategory: CategoryType;
-        weeklyAvgCo2: number;
+        archetype?: string;
+        topCategory?: CategoryType;
+        weeklyAvgCo2?: number;
       };
+
+      if (!archetype || typeof archetype !== 'string') {
+        return NextResponse.json({ error: 'Missing archetype' }, { status: 400 });
+      }
+      if (!topCategory || !['transport', 'diet', 'utilities', 'shopping'].includes(topCategory)) {
+        return NextResponse.json({ error: 'Invalid topCategory' }, { status: 400 });
+      }
+      if (typeof weeklyAvgCo2 !== 'number' || weeklyAvgCo2 < 0) {
+        return NextResponse.json({ error: 'Invalid weeklyAvgCo2' }, { status: 400 });
+      }
 
       try {
         const swaps = await generateSwaps(archetype, topCategory, weeklyAvgCo2);

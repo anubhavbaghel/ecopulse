@@ -11,16 +11,15 @@ import {
 } from '@/lib/firestore/habits';
 
 export const useHabits = () => {
-  const { habits, isLoading, setHabits, toggleComplete, updateStreak, setLoading } =
+  const { habits, isLoading, hasLoaded, setHabits, toggleComplete, updateStreak, setLoading } =
     useHabitStore();
   const { user } = useAuthStore();
 
   const loadHabits = useCallback(async () => {
-    if (!user) return;
+    if (!user || hasLoaded) return;
     setLoading(true);
     try {
       let loaded = await getHabits(user.uid);
-      // First login — seed default habits
       if (loaded.length === 0) {
         loaded = await seedDefaultHabits(user.uid);
       }
@@ -30,7 +29,7 @@ export const useHabits = () => {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, hasLoaded]);
 
   useEffect(() => {
     loadHabits();

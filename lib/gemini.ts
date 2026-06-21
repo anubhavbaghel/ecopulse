@@ -1,4 +1,4 @@
-import { ArchetypeResult, SwapSuggestion, GeminiEndpoint } from '@/types/gemini';
+import { ArchetypeResult, SwapSuggestion } from '@/types/gemini';
 import { OnboardingAnswers, CategoryType } from '@/types/user';
 
 // ── Server-side Gemini client (called from Route Handlers only) ───────────────

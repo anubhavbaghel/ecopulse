@@ -33,7 +33,7 @@ function SwapsContent() {
       const data = await res.json();
       setSwaps(data.data.swaps as SwapSuggestion[]);
       setHasFetched(true);
-    } catch (err) {
+    } catch {
       setError('Could not load swaps. Please check your connection.');
     } finally {
       setLoading(false);

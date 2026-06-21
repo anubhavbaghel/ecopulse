@@ -17,13 +17,6 @@ const TABS: { id: CategoryType; label: string; icon: React.ComponentType<{ size:
   { id: 'shopping', label: 'Shopping', icon: ShoppingBag },
 ];
 
-const CATEGORY_COLORS: Record<CategoryType, string> = {
-  transport: '#10b981', // emerald-500
-  diet: '#10b981',
-  utilities: '#10b981',
-  shopping: '#10b981',
-};
-
 function LogContent() {
   const { user } = useAuthStore();
   const { addActivity } = useCarbonStore();
@@ -73,7 +66,7 @@ function LogContent() {
       setSelectedFactorId('');
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-    } catch (err) {
+    } catch {
       setError('Failed to save. Please try again.');
     } finally {
       setSaving(false);
@@ -140,9 +133,10 @@ function LogContent() {
                 <section className="bg-white border border-zinc-100 rounded-[2.5rem] p-8 space-y-8 shadow-sm">
                   {/* Activity Type */}
                   <div className="space-y-4">
-                    <label className="text-xs font-black text-zinc-400 uppercase tracking-widest ml-1">Type of Activity</label>
+                    <label htmlFor="activity-type" className="text-xs font-black text-zinc-400 uppercase tracking-widest ml-1">Type of Activity</label>
                     <div className="relative">
                       <select
+                        id="activity-type"
                         value={selectedFactorId}
                         onChange={(e) => { setSelectedFactorId(e.target.value); setSuccess(false); }}
                         className="w-full bg-zinc-50 border-2 border-zinc-100 rounded-2xl px-5 py-4 text-sm font-bold text-zinc-900 focus:border-emerald-500 focus:bg-white outline-none transition-all appearance-none cursor-pointer"
@@ -158,11 +152,12 @@ function LogContent() {
                   {/* Quantity Input */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between ml-1">
-                      <label className="text-xs font-black text-zinc-400 uppercase tracking-widest">Amount Used</label>
+                      <label htmlFor="activity-quantity" className="text-xs font-black text-zinc-400 uppercase tracking-widest">Amount Used</label>
                       <span className="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded uppercase">{selectedFactor?.unit || 'Units'}</span>
                     </div>
                     <div className="relative">
                       <input
+                        id="activity-quantity"
                         type="number"
                         placeholder="0.00"
                         value={quantity}

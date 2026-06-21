@@ -7,20 +7,14 @@ import {
   query,
   where,
   orderBy,
-  Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ActivityEntry, ActivityInput } from '@/types/activity';
 import { calculateCo2 } from '@/lib/emission-factors';
+import { todayString } from '@/lib/utils/date';
 
 const activitiesRef = (uid: string) =>
   collection(db, 'users', uid, 'activities');
-
-// Today's date string YYYY-MM-DD
-export const todayString = (): string => {
-  const d = new Date();
-  return d.toISOString().split('T')[0];
-};
 
 export const addActivity = async (
   uid: string,

@@ -24,22 +24,21 @@ export function AuthGuard({ children, requireOnboarding = true }: AuthGuardProps
     }
   }, [user, profile, loading, requireOnboarding, router]);
 
-  if (loading) {
+  const showLoader = loading || !user || (requireOnboarding && profile && !profile.onboardingComplete);
+
+  if (showLoader) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-slate-900)' }}>
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
         <div className="flex flex-col items-center gap-4">
           <div
             className="w-10 h-10 rounded-full border-2 animate-spin"
-            style={{ borderColor: 'var(--color-slate-600)', borderTopColor: 'var(--color-sage-500)' }}
+            style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
           />
-          <p style={{ color: 'var(--color-cream-400)', fontSize: '0.875rem' }}>Loading EcoPulse…</p>
+          <p style={{ color: '#5f6368', fontSize: '0.875rem' }}>Loading EcoPulse…</p>
         </div>
       </div>
     );
   }
-
-  if (!user) return null;
-  if (requireOnboarding && profile && !profile.onboardingComplete) return null;
 
   return <>{children}</>;
 }

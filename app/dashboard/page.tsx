@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthGuard } from '@/components/layout/AuthGuard';
 import { Navbar } from '@/components/layout/Navbar';
 import { PulseGauge } from '@/components/dashboard/PulseGauge';
@@ -14,7 +14,7 @@ import { useHabitStore } from '@/lib/stores/habitStore';
 import { getTodayActivities, getWeeklyDailyTotals, deleteActivity } from '@/lib/firestore/activities';
 import { getHabits, seedDefaultHabits } from '@/lib/firestore/habits';
 import { CategoryType } from '@/types/user';
-import { PenLine, ChevronRight, Leaf } from 'lucide-react';
+import { PenLine, Leaf } from 'lucide-react';
 import Link from 'next/link';
 
 const CATEGORIES: CategoryType[] = ['transport', 'diet', 'utilities', 'shopping'];
@@ -25,38 +25,46 @@ function DashboardContent() {
     activities, todayTotalKg, dailyTargetKg, categoryTotals, weeklyData,
     setActivities, setWeeklyData, setDailyTarget, removeActivity,
   } = useCarbonStore();
-  const { habits, setHabits } = useHabitStore();
+  const { habits, hasLoaded, setHabits } = useHabitStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
 
-  const loadData = useCallback(async () => {
+  useEffect(() => {
     if (!user) return;
-    try {
-      const [todayActs, weekly, loadedHabits] = await Promise.all([
-        getTodayActivities(user.uid),
-        getWeeklyDailyTotals(user.uid),
-        getHabits(user.uid),
-      ]);
+    setLoadError('');
 
-      setActivities(todayActs);
-      setWeeklyData(weekly);
+    const loadData = async () => {
+      try {
+        const [todayActs, weekly, loadedHabits] = await Promise.all([
+          getTodayActivities(user.uid),
+          getWeeklyDailyTotals(user.uid),
+          hasLoaded ? Promise.resolve(null) : getHabits(user.uid),
+        ]);
 
-      let habits = loadedHabits;
-      if (habits.length === 0) {
-        habits = await seedDefaultHabits(user.uid);
+        setActivities(todayActs);
+        setWeeklyData(weekly);
+
+        if (loadedHabits) {
+          let habitsList = loadedHabits;
+          if (habitsList.length === 0) {
+            habitsList = await seedDefaultHabits(user.uid);
+          }
+          setHabits(habitsList);
+        }
+
+        if (profile?.dailyTargetKg) {
+          setDailyTarget(profile.dailyTargetKg);
+        }
+      } catch (err) {
+        console.error('Dashboard load error:', err);
+        setLoadError('Failed to load dashboard data. Please try refreshing.');
+      } finally {
+        setIsLoading(false);
       }
-      setHabits(habits);
+    };
 
-      if (profile?.dailyTargetKg) {
-        setDailyTarget(profile.dailyTargetKg);
-      }
-    } catch (err) {
-      console.error('Dashboard load error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user, profile]);
-
-  useEffect(() => { loadData(); }, [loadData]);
+    loadData();
+  }, [user, profile, hasLoaded]);
 
   const handleDeleteActivity = async (id: string) => {
     if (!user) return;
@@ -112,6 +120,13 @@ function DashboardContent() {
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
           </header>
+
+          {loadError && (
+            <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 text-sm font-medium flex items-center justify-between">
+              <span>{loadError}</span>
+              <button onClick={() => window.location.reload()} className="underline font-semibold">Reload</button>
+            </div>
+          )}
 
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-32 space-y-4">

@@ -5,13 +5,10 @@ import { Navbar } from '@/components/layout/Navbar';
 import { HabitCard } from '@/components/habits/HabitCard';
 import { StreakBanner } from '@/components/dashboard/StreakBanner';
 import { useHabits } from '@/hooks/useHabits';
-import { useHabitStore } from '@/lib/stores/habitStore';
 import { CheckSquare } from 'lucide-react';
 
 function HabitsContent() {
   const { habits, isLoading, handleToggle } = useHabits();
-  const { totalStreakDays } = useHabitStore();
-
   const completedCount = habits.filter((h) => h.completedToday).length;
   const totalCount = habits.length;
   const completionRate = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
