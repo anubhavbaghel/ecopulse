@@ -39,10 +39,10 @@ export default function LandingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-slate-900)' }}>
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
         <div
           className="w-8 h-8 rounded-full border-2 animate-spin"
-          style={{ borderColor: 'var(--color-slate-600)', borderTopColor: 'var(--color-sage-500)' }}
+          style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
         />
       </div>
     );
@@ -55,61 +55,57 @@ export default function LandingPage() {
   ];
 
   return (
-    <main className="relative min-h-screen flex flex-col" style={{ background: 'var(--color-slate-900)' }}>
-      {/* Gradient mesh background */}
-      <div className="mesh-bg" />
-
+    <main className="relative min-h-screen flex flex-col items-center w-full" style={{ backgroundColor: '#f8f9fa' }}>
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-6 py-5 max-w-6xl mx-auto w-full">
-        <div className="flex items-center gap-2.5">
+      <header className="relative z-10 flex items-center justify-between px-6 py-4 max-w-5xl w-full border-b border-[#dadce0]" style={{ backgroundColor: '#f8f9fa' }}>
+        <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'rgba(107,143,113,0.15)', border: '1px solid rgba(107,143,113,0.3)' }}
+            className="w-8 h-8 rounded flex items-center justify-center"
+            style={{ background: '#e8f0fe', border: '1px solid #d2e3fc' }}
           >
-            <Leaf size={16} style={{ color: 'var(--color-sage-400)' }} />
+            <Leaf size={16} style={{ color: '#1a73e8' }} />
           </div>
-          <span className="font-semibold" style={{ color: 'var(--color-cream-100)', fontSize: '1.05rem' }}>
-            <span style={{ color: 'var(--color-sage-400)' }}>Eco</span>Pulse
+          <span className="font-semibold" style={{ color: '#202124', fontSize: '1.05rem' }}>
+            <span style={{ color: '#1a73e8' }}>Eco</span>Pulse
           </span>
         </div>
         <span
-          className="badge badge-sage text-xs"
-          style={{ padding: '0.3rem 0.875rem' }}
+          className="badge badge-teal text-xs"
+          style={{ padding: '0.25rem 0.75rem' }}
         >
           MVP · v1.0
         </span>
       </header>
 
       {/* Hero */}
-      <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-16 max-w-3xl mx-auto w-full">
+      <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-16 max-w-3xl w-full" style={{ backgroundColor: '#f8f9fa' }}>
         {/* Eyebrow */}
         <div
-          className="badge badge-sage mb-6 animate-fade-in"
-          style={{ fontSize: '0.75rem', padding: '0.35rem 1rem' }}
+          className="badge badge-teal mb-6 animate-fade-in text-center mx-auto"
+          style={{ fontSize: '0.75rem', padding: '0.3rem 0.85rem' }}
         >
           🌿 Your personal climate companion
         </div>
 
         {/* Headline */}
         <h1
-          className="text-display mb-5 animate-fade-in-up"
-          style={{ animationDelay: '0.1s', letterSpacing: '-0.02em' }}
+          className="text-display mb-5 text-center animate-fade-in-up font-bold w-full"
+          style={{ animationDelay: '0.1s', letterSpacing: '-0.02em', color: '#202124' }}
         >
           Small actions.
           <br />
-          <span style={{ color: 'var(--color-sage-400)' }}>Real impact.</span>
+          <span style={{ color: '#1a73e8' }}>Real impact.</span>
         </h1>
 
         {/* Subheadline */}
         <p
-          className="animate-fade-in-up mb-10"
+          className="animate-fade-in-up mb-8 text-center mx-auto w-full"
           style={{
-            color: 'var(--color-cream-300)',
+            color: '#3c4043',
             fontSize: '1.05rem',
-            maxWidth: '480px',
-            lineHeight: 1.7,
+            maxWidth: '520px',
+            lineHeight: 1.6,
             animationDelay: '0.2s',
-            opacity: 0,
           }}
         >
           EcoPulse turns your daily choices into a beautifully clear picture of your environmental footprint — then shows you exactly how to improve it.
@@ -117,21 +113,30 @@ export default function LandingPage() {
 
         {/* CTA */}
         <div
-          className="flex flex-col items-center gap-3 animate-fade-in-up"
-          style={{ animationDelay: '0.3s', opacity: 0 }}
+          className="flex flex-col items-center justify-center gap-3 animate-fade-in-up w-full mx-auto"
+          style={{ animationDelay: '0.3s' }}
         >
           <button
             id="google-signin-btn"
             onClick={handleGoogleSignIn}
             disabled={signing}
-            className="btn-primary"
-            style={{ fontSize: '0.95rem', padding: '0.875rem 2rem', gap: '0.625rem' }}
+            className="flex items-center justify-center gap-3 transition-all cursor-pointer mx-auto"
+            style={{
+              background: '#ffffff',
+              color: '#3c4043',
+              border: '1px solid #dadce0',
+              borderRadius: '4px',
+              padding: '0.75rem 1.75rem',
+              fontSize: '0.95rem',
+              fontWeight: 500,
+              boxShadow: '0 1px 2px 0 rgba(60,64,67,0.3)',
+            }}
           >
             {signing ? (
               <>
                 <div
                   className="w-4 h-4 rounded-full border-2 animate-spin"
-                  style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }}
+                  style={{ borderColor: '#dadce0', borderTopColor: '#1a73e8' }}
                 />
                 Signing in…
               </>
@@ -145,43 +150,50 @@ export default function LandingPage() {
                   <path fill="#EA4335" d="M9 3.58a4.86 4.86 0 0 1 3.44 1.35l2.58-2.58A8.65 8.65 0 0 0 9 0 9 9 0 0 0 .96 4.96l3.02 2.33A5.36 5.36 0 0 1 9 3.58z" />
                 </svg>
                 Continue with Google
-                <ArrowRight size={16} />
+                <ArrowRight size={16} style={{ color: '#1a73e8' }} />
               </>
             )}
           </button>
 
           {error && (
-            <p className="text-sm" style={{ color: 'var(--color-amber-400)' }}>{error}</p>
+            <p className="text-sm text-center" style={{ color: '#d93025' }}>{error}</p>
           )}
 
-          <p className="text-xs" style={{ color: 'var(--color-cream-500)' }}>
+          <p className="text-xs mt-1 text-center" style={{ color: '#5f6368' }}>
             Your data is stored securely in Firebase. No spam, ever.
           </p>
         </div>
       </section>
 
       {/* Feature cards */}
-      <section className="relative z-10 px-6 pb-16 max-w-4xl mx-auto w-full">
+      <section className="relative z-10 px-6 pb-16 max-w-5xl w-full flex justify-center" style={{ backgroundColor: '#f8f9fa' }}>
         <div
-          className="grid gap-4 animate-fade-in-up"
+          className="grid gap-6 animate-fade-in-up w-full"
           style={{
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            animationDelay: '0.5s',
-            opacity: 0,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            animationDelay: '0.4s',
           }}
         >
           {features.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="card p-5">
+            <div
+              key={title}
+              className="p-6 flex flex-col items-center text-center shadow-sm"
+              style={{
+                backgroundColor: '#ffffff',
+                border: '1px solid #dadce0',
+                borderRadius: '8px',
+              }}
+            >
               <div
-                className="w-9 h-9 rounded-xl mb-3 flex items-center justify-center"
-                style={{ background: 'rgba(107,143,113,0.12)', border: '1px solid rgba(107,143,113,0.2)' }}
+                className="w-10 h-10 rounded-full mb-4 flex items-center justify-center"
+                style={{ background: '#e8f0fe', border: '1px solid #d2e3fc' }}
               >
-                <Icon size={17} style={{ color: 'var(--color-sage-400)' }} />
+                <Icon size={18} style={{ color: '#1a73e8' }} />
               </div>
-              <h3 className="text-sm font-semibold mb-1.5" style={{ color: 'var(--color-cream-200)' }}>
+              <h3 className="text-sm font-semibold mb-2" style={{ color: '#202124' }}>
                 {title}
               </h3>
-              <p className="text-xs" style={{ color: 'var(--color-cream-400)', lineHeight: 1.65 }}>
+              <p className="text-xs" style={{ color: '#5f6368', lineHeight: 1.6 }}>
                 {desc}
               </p>
             </div>
@@ -191,10 +203,10 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer
-        className="relative z-10 text-center py-5 border-t"
-        style={{ borderColor: 'rgba(107,143,113,0.1)' }}
+        className="relative z-10 text-center py-6 border-t border-[#dadce0] w-full mt-auto"
+        style={{ backgroundColor: '#ffffff' }}
       >
-        <p className="text-xs" style={{ color: 'var(--color-cream-500)' }}>
+        <p className="text-xs text-center" style={{ color: '#5f6368' }}>
           Powered by Gemini AI · Firebase · Next.js 15
         </p>
       </footer>

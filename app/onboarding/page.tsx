@@ -22,7 +22,7 @@ const DIET_OPTIONS: { id: DietType; label: string; icon: React.ComponentType<{ s
   { id: 'meat-heavy', label: 'Meat every day', icon: Beef, desc: 'Red & white meat at most meals' },
   { id: 'balanced', label: 'Balanced diet', icon: Salad, desc: 'Meat a few times a week' },
   { id: 'plant-based', label: 'Mostly plants', icon: Leaf, desc: 'Occasional meat or fish' },
-  { id: 'vegan', label: 'Vegan / fully plant-based', icon: Sprout, desc: 'No animal products' },
+  { id: 'vegan', label: 'Vegan / plant-based', icon: Sprout, desc: 'No animal products' },
 ];
 
 const HOME_OPTIONS: { id: HomeSizeType; label: string; icon: React.ComponentType<{ size: number; style?: React.CSSProperties }>; desc: string }[] = [
@@ -44,59 +44,58 @@ function ArchetypeReveal({
     <div className="flex flex-col items-center text-center gap-6 animate-fade-in-scale">
       {/* Icon circle */}
       <div
-        className="w-20 h-20 rounded-full flex items-center justify-center animate-float"
-        style={{ background: 'rgba(107,143,113,0.12)', border: '2px solid rgba(107,143,113,0.3)' }}
+        className="w-16 h-16 rounded-full flex items-center justify-center"
+        style={{ background: '#e8f0fe', border: '1.5px solid #d2e3fc' }}
       >
-        <Leaf size={36} style={{ color: 'var(--color-sage-400)' }} />
+        <Leaf size={28} style={{ color: '#1a73e8' }} />
       </div>
 
       <div>
-        <p className="text-subheading mb-2">Your lifestyle archetype</p>
+        <p className="text-subheading mb-1.5">Your lifestyle archetype</p>
         <h2
-          className="font-serif mb-3"
-          style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', color: 'var(--color-cream-100)', lineHeight: 1.2 }}
+          className="mb-2 font-bold"
+          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2rem)', color: '#202124', lineHeight: 1.25 }}
         >
           {result.archetype_name}
         </h2>
-        <p style={{ color: 'var(--color-cream-300)', maxWidth: '420px', lineHeight: 1.7, fontSize: '0.95rem' }}>
+        <p style={{ color: '#5f6368', maxWidth: '440px', lineHeight: 1.6, fontSize: '0.875rem' }}>
           {result.archetype_description}
         </p>
       </div>
 
       {/* Baseline metric */}
       <div
-        className="card px-8 py-4 text-center"
-        style={{ background: 'var(--color-slate-750)' }}
+        className="card px-8 py-5 text-center"
+        style={{ background: '#ffffff', borderColor: '#dadce0', width: '100%' }}
       >
         <p className="text-subheading mb-1">Estimated daily footprint</p>
-        <div className="flex items-baseline justify-center gap-1.5">
+        <div className="flex items-baseline justify-center gap-1">
           <span
-            className="tabular font-semibold"
-            style={{ fontSize: '2.5rem', color: 'var(--color-cream-100)', letterSpacing: '-0.03em' }}
+            className="tabular font-bold"
+            style={{ fontSize: '2.25rem', color: '#202124', letterSpacing: '-0.02em' }}
           >
             {result.daily_co2_kg.toFixed(1)}
           </span>
-          <span style={{ color: 'var(--color-cream-400)', fontSize: '1rem' }}>kg CO₂e / day</span>
+          <span style={{ color: '#5f6368', fontSize: '0.875rem', marginLeft: '0.25rem' }}>kg CO₂e / day</span>
         </div>
-        <p className="text-xs mt-1.5" style={{ color: 'var(--color-cream-500)' }}>
+        <p className="text-xs mt-1" style={{ color: '#70757a' }}>
           We'll help you lower this, one step at a time
         </p>
       </div>
 
       {/* Initial swaps preview */}
-      <div className="w-full max-w-md flex flex-col gap-2">
-        <p className="text-subheading text-left">Your first 3 swaps</p>
+      <div className="w-full flex flex-col gap-2">
+        <p className="text-subheading text-left mb-1">Your first 3 swaps</p>
         {result.initial_swaps.slice(0, 3).map((swap, i) => (
           <div
             key={i}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
-            style={{ background: 'var(--color-slate-800)', border: '1px solid rgba(107,143,113,0.1)' }}
+            className="flex items-center gap-3 px-4 py-3 rounded border border-[#dadce0] bg-white text-left"
           >
-            <CheckCircle2 size={15} style={{ color: 'var(--color-sage-400)', flexShrink: 0 }} />
-            <span className="text-sm" style={{ color: 'var(--color-cream-300)' }}>{swap.title}</span>
+            <CheckCircle2 size={16} style={{ color: '#137333', flexShrink: 0 }} />
+            <span className="text-xs font-medium" style={{ color: '#202124' }}>{swap.title}</span>
             <span
               className="ml-auto text-xs font-semibold tabular flex-shrink-0"
-              style={{ color: 'var(--color-sage-400)' }}
+              style={{ color: '#137333' }}
             >
               −{swap.co2_saving_kg_per_week.toFixed(1)} kg/wk
             </span>
@@ -104,9 +103,9 @@ function ArchetypeReveal({
         ))}
       </div>
 
-      <button onClick={onEnter} className="btn-primary" style={{ fontSize: '1rem', padding: '0.875rem 2.5rem', gap: '0.75rem' }}>
+      <button onClick={onEnter} className="btn-primary w-full justify-center mt-2" style={{ fontSize: '0.9rem', padding: '0.75rem' }}>
         Enter EcoPulse
-        <ArrowRight size={18} />
+        <ArrowRight size={16} />
       </button>
     </div>
   );
@@ -115,7 +114,7 @@ function ArchetypeReveal({
 /* ── Main Onboarding Page ─────────────────────────────────────────────────── */
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user, setProfile } = useAuthStore();
+  const { user, profile, setProfile } = useAuthStore();
 
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<OnboardingAnswers>>({});
@@ -164,7 +163,16 @@ export default function OnboardingPage() {
   };
 
   const handleEnterApp = () => {
-    // Profile will be reloaded by AuthProvider
+    if (profile && result) {
+      setProfile({
+        ...profile,
+        onboardingComplete: true,
+        archetype: result.archetype_name,
+        topCategory: result.top_category,
+        dailyTargetKg: result.daily_co2_kg,
+        baselineCo2Kg: result.daily_co2_kg,
+      });
+    }
     router.replace('/dashboard');
   };
 
@@ -180,30 +188,27 @@ export default function OnboardingPage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative"
-      style={{ background: 'var(--color-slate-900)' }}
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-12 bg-[#f8f9fa]"
     >
-      <div className="mesh-bg" />
-
-      <div className="relative z-10 w-full max-w-lg">
+      <div className="w-full max-w-md bg-white border border-[#dadce0] rounded-lg p-6 md:p-8 shadow-sm">
         {/* Logo + progress */}
         {!result && (
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Leaf size={16} style={{ color: 'var(--color-sage-400)' }} />
-                <span className="font-semibold" style={{ color: 'var(--color-cream-300)', fontSize: '0.9rem' }}>
-                  <span style={{ color: 'var(--color-sage-400)' }}>Eco</span>Pulse
+                <Leaf size={15} style={{ color: '#1a73e8' }} />
+                <span className="font-semibold text-xs" style={{ color: '#202124' }}>
+                  <span style={{ color: '#1a73e8' }}>Eco</span>Pulse
                 </span>
               </div>
-              <span className="text-sm" style={{ color: 'var(--color-cream-500)' }}>
-                {step + 1} / {steps.length}
+              <span className="text-xs font-semibold" style={{ color: '#5f6368' }}>
+                Step {step + 1} of {steps.length}
               </span>
             </div>
             <div className="progress-bar">
               <div
                 className="progress-bar-fill"
-                style={{ width: `${progressPct}%` }}
+                style={{ width: `${progressPct}%`, background: '#1a73e8' }}
               />
             </div>
             <div className="flex justify-between mt-2">
@@ -211,8 +216,8 @@ export default function OnboardingPage() {
                 <span
                   key={s}
                   style={{
-                    fontSize: '0.7rem',
-                    color: i <= step ? 'var(--color-sage-400)' : 'var(--color-cream-500)',
+                    fontSize: '0.68rem',
+                    color: i <= step ? '#1a73e8' : '#70757a',
                     fontWeight: i === step ? 600 : 400,
                   }}
                 >
@@ -229,111 +234,110 @@ export default function OnboardingPage() {
         ) : step === 0 ? (
           /* ── Mobility Step ── */
           <div className="animate-fade-in-up">
-            <h2 className="text-heading mb-1" style={{ fontSize: '1.5rem' }}>
+            <h2 className="text-heading mb-1" style={{ fontSize: '1.25rem', color: '#202124' }}>
               How do you mainly get around?
             </h2>
-            <p className="text-sm mb-6" style={{ color: 'var(--color-cream-400)' }}>
+            <p className="text-xs mb-5" style={{ color: '#5f6368' }}>
               This is typically the biggest lever in your footprint
             </p>
             <div className="grid grid-cols-2 gap-3 mb-6">
               {MOBILITY_OPTIONS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  className={`quiz-option ${answers.mobility === id ? 'selected' : ''}`}
+                  className={`quiz-option flex flex-col items-center justify-center ${answers.mobility === id ? 'selected' : ''}`}
                   onClick={() => setAnswers((p) => ({ ...p, mobility: id }))}
                 >
-                  <Icon size={28} />
-                  <p className="text-sm font-medium mt-2" style={{ color: 'var(--color-cream-200)' }}>{label}</p>
+                  <Icon size={24} style={{ color: answers.mobility === id ? '#1a73e8' : '#5f6368' }} />
+                  <p className="text-xs font-semibold mt-2" style={{ color: '#202124' }}>{label}</p>
                 </button>
               ))}
             </div>
             <button
-              className="btn-primary w-full justify-center"
+              className="btn-primary w-full justify-center cursor-pointer"
               disabled={!answers.mobility}
               onClick={() => setStep(1)}
               style={{ opacity: answers.mobility ? 1 : 0.4 }}
             >
-              Next <ArrowRight size={16} />
+              Next <ArrowRight size={15} />
             </button>
           </div>
         ) : step === 1 ? (
           /* ── Diet Step ── */
           <div className="animate-fade-in-up">
-            <h2 className="text-heading mb-1" style={{ fontSize: '1.5rem' }}>
+            <h2 className="text-heading mb-1" style={{ fontSize: '1.25rem', color: '#202124' }}>
               How would you describe your diet?
             </h2>
-            <p className="text-sm mb-6" style={{ color: 'var(--color-cream-400)' }}>
+            <p className="text-xs mb-5" style={{ color: '#5f6368' }}>
               Food choices are a major source of personal emissions
             </p>
-            <div className="flex flex-col gap-3 mb-6">
+            <div className="flex flex-col gap-3.5 mb-6">
               {DIET_OPTIONS.map(({ id, label, icon: Icon, desc }) => (
                 <button
                   key={id}
-                  className={`quiz-option flex items-center gap-3 text-left ${answers.diet === id ? 'selected' : ''}`}
+                  className={`quiz-option flex items-center gap-3.5 text-left py-3 px-4 ${answers.diet === id ? 'selected' : ''}`}
                   onClick={() => setAnswers((p) => ({ ...p, diet: id }))}
                 >
-                  <Icon size={22} style={{ flexShrink: 0 }} />
+                  <Icon size={20} style={{ color: answers.diet === id ? '#1a73e8' : '#5f6368', flexShrink: 0 }} />
                   <div>
-                    <p className="text-sm font-medium" style={{ color: 'var(--color-cream-200)' }}>{label}</p>
-                    <p className="text-xs" style={{ color: 'var(--color-cream-500)' }}>{desc}</p>
+                    <p className="text-xs font-bold" style={{ color: '#202124' }}>{label}</p>
+                    <p className="text-[10px] mt-0.5" style={{ color: '#5f6368' }}>{desc}</p>
                   </div>
                 </button>
               ))}
             </div>
             <div className="flex gap-3">
-              <button className="btn-ghost flex-1 justify-center" onClick={() => setStep(0)}>Back</button>
+              <button className="btn-ghost flex-1 justify-center cursor-pointer" onClick={() => setStep(0)}>Back</button>
               <button
-                className="btn-primary flex-1 justify-center"
+                className="btn-primary flex-1 justify-center cursor-pointer"
                 disabled={!answers.diet}
                 onClick={() => setStep(2)}
                 style={{ opacity: answers.diet ? 1 : 0.4 }}
               >
-                Next <ArrowRight size={16} />
+                Next <ArrowRight size={15} />
               </button>
             </div>
           </div>
         ) : (
           /* ── Home Step ── */
           <div className="animate-fade-in-up">
-            <h2 className="text-heading mb-1" style={{ fontSize: '1.5rem' }}>
+            <h2 className="text-heading mb-1" style={{ fontSize: '1.25rem', color: '#202124' }}>
               Tell us about your home
             </h2>
-            <p className="text-sm mb-6" style={{ color: 'var(--color-cream-400)' }}>
+            <p className="text-xs mb-5" style={{ color: '#5f6368' }}>
               Home energy is often overlooked but very impactful
             </p>
             <div className="grid grid-cols-2 gap-3 mb-4">
               {HOME_OPTIONS.map(({ id, label, icon: Icon, desc }) => (
                 <button
                   key={id}
-                  className={`quiz-option ${answers.homeSize === id ? 'selected' : ''}`}
+                  className={`quiz-option flex flex-col items-center justify-center p-3.5 ${answers.homeSize === id ? 'selected' : ''}`}
                   onClick={() => setAnswers((p) => ({ ...p, homeSize: id }))}
                 >
-                  <Icon size={24} />
-                  <p className="text-sm font-medium mt-2" style={{ color: 'var(--color-cream-200)' }}>{label}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--color-cream-500)' }}>{desc}</p>
+                  <Icon size={20} style={{ color: answers.homeSize === id ? '#1a73e8' : '#5f6368' }} />
+                  <p className="text-xs font-semibold mt-1.5" style={{ color: '#202124' }}>{label}</p>
+                  <p className="text-[9px] mt-0.5 leading-tight" style={{ color: '#70757a' }}>{desc}</p>
                 </button>
               ))}
             </div>
 
             {/* Renewable toggle */}
             <div
-              className="flex items-center justify-between px-4 py-3 rounded-xl mb-6"
-              style={{ background: 'var(--color-slate-750)', border: '1px solid rgba(107,143,113,0.12)' }}
+              className="flex items-center justify-between px-3.5 py-2.5 rounded border border-[#dadce0] mb-5 bg-[#f8f9fa]"
             >
               <div className="flex items-center gap-2.5">
-                <Zap size={16} style={{ color: 'var(--color-amber-400)' }} />
+                <Zap size={15} style={{ color: '#b06000' }} />
                 <div>
-                  <p className="text-sm font-medium" style={{ color: 'var(--color-cream-200)' }}>Renewable energy?</p>
-                  <p className="text-xs" style={{ color: 'var(--color-cream-500)' }}>Solar, wind, green tariff</p>
+                  <p className="text-xs font-semibold" style={{ color: '#202124' }}>Renewable energy?</p>
+                  <p className="text-[10px]" style={{ color: '#5f6368' }}>Solar, wind, green tariff</p>
                 </div>
               </div>
               <button
                 onClick={() => setRenewable((r) => !r)}
                 className="relative"
                 style={{
-                  width: '44px',
-                  height: '24px',
-                  background: renewable ? 'var(--color-sage-600)' : 'var(--color-slate-600)',
+                  width: '36px',
+                  height: '20px',
+                  background: renewable ? '#1a73e8' : '#dadce0',
                   borderRadius: '999px',
                   border: 'none',
                   cursor: 'pointer',
@@ -344,26 +348,27 @@ export default function OnboardingPage() {
                 <span
                   style={{
                     position: 'absolute',
-                    top: '3px',
-                    left: renewable ? '23px' : '3px',
-                    width: '18px',
-                    height: '18px',
+                    top: '2px',
+                    left: renewable ? '18px' : '2px',
+                    width: '16px',
+                    height: '16px',
                     background: 'white',
                     borderRadius: '50%',
                     transition: 'left 0.2s ease',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
                   }}
                 />
               </button>
             </div>
 
             {error && (
-              <p className="text-sm text-center mb-3" style={{ color: 'var(--color-amber-400)' }}>{error}</p>
+              <p className="text-xs text-center mb-3" style={{ color: '#d93025' }}>{error}</p>
             )}
 
             <div className="flex gap-3">
-              <button className="btn-ghost flex-1 justify-center" onClick={() => setStep(1)}>Back</button>
+              <button className="btn-ghost flex-1 justify-center cursor-pointer" onClick={() => setStep(1)}>Back</button>
               <button
-                className="btn-primary flex-1 justify-center"
+                className="btn-primary flex-1 justify-center cursor-pointer"
                 disabled={!answers.homeSize || loading}
                 onClick={handleSubmit}
                 style={{ opacity: answers.homeSize && !loading ? 1 : 0.5 }}
@@ -377,7 +382,7 @@ export default function OnboardingPage() {
                     Analysing…
                   </>
                 ) : (
-                  <>Generate my profile <ArrowRight size={16} /></>
+                  <>Submit <ArrowRight size={15} /></>
                 )}
               </button>
             </div>

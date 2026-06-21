@@ -4,16 +4,16 @@ import { SwapSuggestion } from '@/types/gemini';
 import { ArrowRight, Leaf } from 'lucide-react';
 
 const DIFFICULTY_CONFIG = {
-  easy: { label: 'Easy win', color: 'var(--color-sage-400)', bg: 'rgba(107,143,113,0.1)' },
-  medium: { label: 'Some effort', color: 'var(--color-amber-400)', bg: 'rgba(212,168,83,0.1)' },
-  hard: { label: 'Commitment', color: 'var(--color-mauve-400)', bg: 'rgba(164,143,196,0.1)' },
+  easy: { label: 'Easy Win', color: '#137333', bg: '#e6f4ea', border: '#ceead6' },
+  medium: { label: 'Medium Effort', color: '#b06000', bg: '#fef7e0', border: '#feefc3' },
+  hard: { label: 'High Commitment', color: '#d93025', bg: '#fce8e6', border: '#fad2cf' },
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  transport: 'var(--color-teal-400)',
-  diet: 'var(--color-sage-400)',
-  utilities: 'var(--color-amber-400)',
-  shopping: 'var(--color-mauve-400)',
+const CATEGORY_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
+  transport: { color: '#1a73e8', bg: '#e8f0fe', border: '#d2e3fc' }, // GCP Blue
+  diet: { color: '#137333', bg: '#e6f4ea', border: '#ceead6' }, // GCP Green
+  utilities: { color: '#b06000', bg: '#fef7e0', border: '#feefc3' }, // GCP Yellow/Orange
+  shopping: { color: '#d93025', bg: '#fce8e6', border: '#fad2cf' }, // GCP Red
 };
 
 interface SwapCardProps {
@@ -22,57 +22,57 @@ interface SwapCardProps {
 }
 
 export function SwapCard({ swap, index }: SwapCardProps) {
-  const diff = DIFFICULTY_CONFIG[swap.difficulty];
-  const categoryColor = CATEGORY_COLORS[swap.category] ?? 'var(--color-sage-400)';
+  const diff = DIFFICULTY_CONFIG[swap.difficulty] ?? DIFFICULTY_CONFIG.easy;
+  const config = CATEGORY_CONFIG[swap.category] ?? { color: '#1a73e8', bg: '#e8f0fe', border: '#d2e3fc' };
 
   return (
     <div
       className={`card p-5 flex flex-col gap-4 animate-fade-in-up stagger-${index + 1}`}
+      style={{ background: '#ffffff', borderColor: '#dadce0' }}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-semibold" style={{ color: 'var(--color-cream-100)' }}>
+        <h3 className="text-xs font-bold" style={{ color: '#202124' }}>
           {swap.title}
         </h3>
         <div className="flex gap-1.5 flex-shrink-0">
           <span
-            className="badge capitalize"
-            style={{ background: `${categoryColor}15`, color: categoryColor, border: `1px solid ${categoryColor}25` }}
+            className="badge capitalize font-semibold"
+            style={{ background: config.bg, color: config.color, border: `1px solid ${config.border}` }}
           >
             {swap.category}
           </span>
           <span
-            className="badge"
-            style={{ background: diff.bg, color: diff.color, border: `1px solid ${diff.color}25` }}
+            className="badge font-semibold"
+            style={{ background: diff.bg, color: diff.color, border: `1px solid ${diff.border}` }}
           >
             {diff.label}
           </span>
         </div>
       </div>
 
-      {/* From → To */}
+      {/* From → To Actions */}
       <div
-        className="rounded-xl p-3 flex items-center gap-3"
-        style={{ background: 'var(--color-slate-700)' }}
+        className="rounded border border-[#dadce0] p-3.5 flex items-center gap-3.5 bg-[#f8f9fa]"
       >
         <div className="flex-1 min-w-0">
-          <p className="text-xs mb-0.5" style={{ color: 'var(--color-cream-500)' }}>FROM</p>
-          <p className="text-sm" style={{ color: 'var(--color-cream-300)' }}>{swap.from_action}</p>
+          <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: '#5f6368' }}>Current</p>
+          <p className="text-xs font-semibold" style={{ color: '#5f6368' }}>{swap.from_action}</p>
         </div>
-        <ArrowRight size={16} style={{ color: 'var(--color-sage-500)', flexShrink: 0 }} />
+        <ArrowRight size={15} style={{ color: '#1a73e8', flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
-          <p className="text-xs mb-0.5" style={{ color: 'var(--color-sage-400)' }}>TO</p>
-          <p className="text-sm font-medium" style={{ color: 'var(--color-cream-200)' }}>{swap.to_action}</p>
+          <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: '#137333' }}>Alternative</p>
+          <p className="text-xs font-bold" style={{ color: '#137333' }}>{swap.to_action}</p>
         </div>
       </div>
 
-      {/* Saving */}
-      <div className="flex items-center gap-2">
-        <Leaf size={14} style={{ color: 'var(--color-sage-400)' }} />
-        <span className="text-sm" style={{ color: 'var(--color-cream-400)' }}>
-          Saves{' '}
-          <span className="font-semibold tabular" style={{ color: 'var(--color-sage-300)' }}>
-            {swap.co2_saving_kg_per_week.toFixed(1)} kg CO₂e
+      {/* Saving summary */}
+      <div className="flex items-center gap-2 mt-0.5">
+        <Leaf size={14} style={{ color: '#137333' }} />
+        <span className="text-xs font-medium" style={{ color: '#3c4043' }}>
+          Savings impact:{' '}
+          <span className="font-bold tabular-nums" style={{ color: '#137333' }}>
+            −{swap.co2_saving_kg_per_week.toFixed(1)} kg CO₂e
           </span>{' '}
           per week
         </span>

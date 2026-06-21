@@ -7,11 +7,11 @@ const HABIT_ICONS: Record<string, React.ComponentType<{ size: number; style?: Re
   Leaf, Wind, Bike, Power, Sprout, Package, Flame,
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  transport: 'var(--color-teal-400)',
-  diet: 'var(--color-sage-400)',
-  utilities: 'var(--color-amber-400)',
-  shopping: 'var(--color-mauve-400)',
+const CATEGORY_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
+  transport: { color: '#1a73e8', bg: '#e8f0fe', border: '#d2e3fc' }, // GCP Blue
+  diet: { color: '#137333', bg: '#e6f4ea', border: '#ceead6' }, // GCP Green
+  utilities: { color: '#b06000', bg: '#fef7e0', border: '#feefc3' }, // GCP Yellow/Orange
+  shopping: { color: '#d93025', bg: '#fce8e6', border: '#fad2cf' }, // GCP Red
 };
 
 interface HabitCardProps {
@@ -21,31 +21,35 @@ interface HabitCardProps {
 
 export function HabitCard({ habit, onToggle }: HabitCardProps) {
   const Icon = HABIT_ICONS[habit.icon] ?? Leaf;
-  const color = CATEGORY_COLORS[habit.category] ?? 'var(--color-sage-400)';
+  const config = CATEGORY_CONFIG[habit.category] ?? { color: '#1a73e8', bg: '#e8f0fe', border: '#d2e3fc' };
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all"
+      className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all shadow-sm"
       style={{
         background: habit.completedToday
-          ? 'rgba(107,143,113,0.07)'
-          : 'var(--color-slate-800)',
-        border: `1px solid ${habit.completedToday ? 'rgba(107,143,113,0.2)' : 'rgba(107,143,113,0.08)'}`,
-        opacity: habit.completedToday ? 0.75 : 1,
+          ? '#e6f4ea' // Clean GCP Green background
+          : '#ffffff',
+        border: `1px solid ${habit.completedToday ? '#ceead6' : '#dadce0'}`,
+        opacity: habit.completedToday ? 0.85 : 1,
       }}
     >
-      {/* Custom Checkbox */}
+      {/* Custom Checkbox (Outlined GCP Style) */}
       <button
         onClick={() => onToggle(habit.id, habit.completedToday)}
-        className={`habit-check flex-shrink-0 ${habit.completedToday ? 'completed' : ''}`}
+        className={`habit-check flex-shrink-0 cursor-pointer ${habit.completedToday ? 'completed' : ''}`}
+        style={{
+          borderColor: habit.completedToday ? '#1a73e8' : '#80868b',
+          borderRadius: '2px',
+        }}
         aria-label={habit.completedToday ? 'Mark incomplete' : 'Mark complete'}
       >
         {habit.completedToday && (
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
             <polyline
               points="20 6 9 17 4 12"
               stroke="white"
-              strokeWidth="2.5"
+              strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
               className="check-icon"
@@ -54,45 +58,51 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
         )}
       </button>
 
-      {/* Icon */}
+      {/* Category Icon */}
       <div
-        className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center"
-        style={{ background: `${color}15` }}
+        className="w-7 h-7 rounded flex-shrink-0 flex items-center justify-center"
+        style={{ background: config.bg, border: `1px solid ${config.border}` }}
       >
-        <Icon size={15} style={{ color }} />
+        <Icon size={13} style={{ color: config.color }} />
       </div>
 
-      {/* Info */}
+      {/* Info details */}
       <div className="flex-1 min-w-0">
         <p
-          className="text-sm font-medium"
+          className="text-xs font-semibold"
           style={{
-            color: habit.completedToday ? 'var(--color-cream-400)' : 'var(--color-cream-200)',
+            color: habit.completedToday ? '#5f6368' : '#202124',
             textDecoration: habit.completedToday ? 'line-through' : 'none',
           }}
         >
           {habit.title}
         </p>
-        <p className="text-xs" style={{ color: 'var(--color-cream-500)' }}>
+        <p className="text-[10px]" style={{ color: '#5f6368' }}>
           {habit.description}
         </p>
       </div>
 
-      {/* CO2 saving + streak */}
+      {/* CO2 saving potential + streak */}
       <div className="flex flex-col items-end gap-1 flex-shrink-0">
         <span
-          className="text-xs font-semibold tabular"
-          style={{ color: 'var(--color-sage-400)' }}
+          className="text-xs font-bold tabular"
+          style={{ color: '#137333' }}
         >
           −{habit.co2SavingKg} kg
         </span>
         {habit.currentStreak > 0 && (
           <div
             className="flex items-center gap-0.5 badge badge-amber"
-            style={{ fontSize: '0.65rem', padding: '0.1rem 0.4rem' }}
+            style={{
+              fontSize: '0.62rem',
+              padding: '0.08rem 0.35rem',
+              background: '#fef7e0',
+              color: '#b06000',
+              borderColor: '#feefc3',
+            }}
           >
-            <Flame size={9} />
-            {habit.currentStreak}d
+            <Flame size={8} />
+            <span>{habit.currentStreak}d</span>
           </div>
         )}
       </div>

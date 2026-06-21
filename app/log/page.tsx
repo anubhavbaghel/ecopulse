@@ -8,7 +8,7 @@ import { useCarbonStore } from '@/lib/stores/carbonStore';
 import { addActivity as addActivityFirestore } from '@/lib/firestore/activities';
 import { EMISSION_FACTORS, getFactorsByCategory, calculateCo2 } from '@/lib/emission-factors';
 import { CategoryType } from '@/types/user';
-import { Car, Utensils, Zap, ShoppingBag, CheckCircle2, Plus } from 'lucide-react';
+import { Car, Utensils, Zap, ShoppingBag, CheckCircle2, Plus, ChevronRight } from 'lucide-react';
 
 const TABS: { id: CategoryType; label: string; icon: React.ComponentType<{ size: number; style?: React.CSSProperties }> }[] = [
   { id: 'transport', label: 'Transport', icon: Car },
@@ -18,10 +18,10 @@ const TABS: { id: CategoryType; label: string; icon: React.ComponentType<{ size:
 ];
 
 const CATEGORY_COLORS: Record<CategoryType, string> = {
-  transport: 'var(--color-teal-400)',
-  diet: 'var(--color-sage-400)',
-  utilities: 'var(--color-amber-400)',
-  shopping: 'var(--color-mauve-400)',
+  transport: '#1a73e8', // GCP Blue
+  diet: '#137333', // GCP Green
+  utilities: '#b06000', // GCP Yellow/Orange
+  shopping: '#d93025', // GCP Red
 };
 
 function LogContent() {
@@ -85,138 +85,141 @@ function LogContent() {
       <Navbar />
       <main className="main-content">
         <div className="max-w-2xl mx-auto w-full">
-        {/* Header */}
-        <div className="mb-8 animate-fade-in">
-          <p className="text-subheading">Tracking</p>
-          <h1 className="font-serif" style={{ fontSize: '1.75rem', color: 'var(--color-cream-100)', marginTop: '0.25rem' }}>
-            Log an Activity
-          </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--color-cream-400)' }}>
-            Every entry helps build a clearer picture of your footprint
-          </p>
-        </div>
-
-        {/* Category tabs */}
-        <div
-          className="flex gap-1.5 p-1 rounded-2xl mb-6 animate-fade-in-up stagger-1"
-          style={{ background: 'var(--color-slate-750)' }}
-        >
-          {TABS.map(({ id, label, icon: Icon }) => {
-            const isActive = id === activeTab;
-            const tabColor = CATEGORY_COLORS[id];
-            return (
-              <button
-                key={id}
-                onClick={() => handleTabChange(id)}
-                className="flex-1 flex flex-col items-center gap-1.5 py-2.5 rounded-xl transition-all"
-                style={{
-                  background: isActive ? 'var(--color-slate-800)' : 'transparent',
-                  border: isActive ? `1px solid ${tabColor}25` : '1px solid transparent',
-                }}
-              >
-                <Icon size={17} style={{ color: isActive ? tabColor : 'var(--color-cream-500)' }} />
-                <span style={{ fontSize: '0.72rem', color: isActive ? 'var(--color-cream-200)' : 'var(--color-cream-500)', fontWeight: isActive ? 600 : 400 }}>
-                  {label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Activity selector */}
-        <div className="flex flex-col gap-4 animate-fade-in-up stagger-2">
-          <div>
-            <label className="text-subheading block mb-2">Select Activity</label>
-            <select
-              className="input select"
-              value={selectedFactorId}
-              onChange={(e) => { setSelectedFactorId(e.target.value); setQuantity(''); }}
-            >
-              <option value="">Choose an activity…</option>
-              {factors.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.label} · {f.co2eKgPerUnit} kg CO₂e / {f.unit}
-                </option>
-              ))}
-            </select>
+          {/* Breadcrumbs */}
+          <div className="flex items-center gap-1 text-[11px] text-[#5f6368] font-medium mb-3 animate-fade-in">
+            <span>EcoPulse</span>
+            <ChevronRight size={10} className="mt-0.5" />
+            <span className="text-[#202124]">Log Activity</span>
           </div>
 
-          {selectedFactor && (
+          {/* Header */}
+          <div className="mb-6 animate-fade-in">
+            <p className="text-subheading">Tracking Console</p>
+            <h1 className="font-bold text-[#202124]" style={{ fontSize: '1.5rem', marginTop: '0.25rem' }}>
+              Log an Activity
+            </h1>
+            <p className="text-xs mt-1" style={{ color: '#5f6368' }}>
+              Register your carbon impact using standardized emission factors
+            </p>
+          </div>
+
+          {/* Category tabs (GCP style underlined) */}
+          <div className="flex border-b border-[#dadce0] mb-6 animate-fade-in-up stagger-1 bg-white px-2">
+            {TABS.map(({ id, label, icon: Icon }) => {
+              const isActive = id === activeTab;
+              const tabColor = CATEGORY_COLORS[id];
+              return (
+                <button
+                  key={id}
+                  onClick={() => handleTabChange(id)}
+                  className="flex items-center gap-2 py-3 px-5 border-b-2 font-semibold text-xs transition-all cursor-pointer"
+                  style={{
+                    borderBottomColor: isActive ? tabColor : 'transparent',
+                    color: isActive ? tabColor : '#5f6368',
+                  }}
+                >
+                  <Icon size={14} style={{ color: isActive ? tabColor : '#5f6368' }} />
+                  <span>{label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Activity selector form */}
+          <div className="flex flex-col gap-5 bg-white border border-[#dadce0] rounded-lg p-6 shadow-sm animate-fade-in-up stagger-2">
             <div>
-              <label className="text-subheading block mb-2">
-                Quantity ({selectedFactor.unit})
+              <label className="text-[10px] font-bold text-[#5f6368] uppercase tracking-wider block mb-2">
+                Select Activity Type
               </label>
-              <input
-                type="number"
-                className="input"
-                placeholder={`e.g. 10 ${selectedFactor.unit}`}
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                min="0"
-                step="any"
-              />
-            </div>
-          )}
-
-          {/* CO2 preview */}
-          {previewCo2 !== null && previewCo2 > 0 && (
-            <div
-              className="flex items-center justify-between px-4 py-3 rounded-xl animate-fade-in"
-              style={{ background: `${color}0d`, border: `1px solid ${color}25` }}
-            >
-              <span className="text-sm" style={{ color: 'var(--color-cream-300)' }}>Estimated impact</span>
-              <span
-                className="font-semibold tabular"
-                style={{ color, fontSize: '1.1rem', letterSpacing: '-0.02em' }}
+              <select
+                className="input select cursor-pointer"
+                value={selectedFactorId}
+                onChange={(e) => { setSelectedFactorId(e.target.value); setQuantity(''); }}
               >
-                +{previewCo2.toFixed(3)} kg CO₂e
-              </span>
+                <option value="">Choose an activity option…</option>
+                {factors.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.label} ({f.co2eKgPerUnit} kg CO₂e / {f.unit})
+                  </option>
+                ))}
+              </select>
             </div>
-          )}
 
-          {/* Emission factor info */}
-          {selectedFactor && (
-            <div
-              className="text-xs px-3 py-2 rounded-lg"
-              style={{ background: 'var(--color-slate-750)', color: 'var(--color-cream-500)' }}
-            >
-              Factor: {selectedFactor.co2eKgPerUnit} kg CO₂e per {selectedFactor.unit} · Source: BEIS 2024 / IPCC AR6
-            </div>
-          )}
-
-          {error && (
-            <p className="text-sm" style={{ color: 'var(--color-amber-400)' }}>{error}</p>
-          )}
-
-          {/* Submit button */}
-          <button
-            onClick={handleSubmit}
-            disabled={!selectedFactor || !quantity || saving}
-            className="btn-primary justify-center"
-            style={{
-              padding: '0.875rem',
-              fontSize: '0.95rem',
-              opacity: !selectedFactor || !quantity || saving ? 0.4 : 1,
-            }}
-          >
-            {saving ? (
-              <>
-                <div className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} />
-                Saving…
-              </>
-            ) : success ? (
-              <>
-                <CheckCircle2 size={18} />
-                Logged successfully
-              </>
-            ) : (
-              <>
-                <Plus size={18} />
-                Add to today's log
-              </>
+            {selectedFactor && (
+              <div className="animate-fade-in">
+                <label className="text-[10px] font-bold text-[#5f6368] uppercase tracking-wider block mb-2">
+                  Quantity ({selectedFactor.unit})
+                </label>
+                <input
+                  type="number"
+                  className="input"
+                  placeholder={`Enter value in ${selectedFactor.unit}`}
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  min="0"
+                  step="any"
+                />
+              </div>
             )}
-          </button>
-        </div>
+
+            {/* CO2 preview (Alert style) */}
+            {previewCo2 !== null && previewCo2 > 0 && (
+              <div
+                className="flex items-center justify-between px-4 py-3 rounded border animate-fade-in"
+                style={{ background: '#fce8e6', borderColor: '#fad2cf' }}
+              >
+                <span className="text-xs font-semibold text-[#5f6368]">Estimated carbon increase</span>
+                <span
+                  className="font-bold tabular text-sm"
+                  style={{ color: '#d93025' }}
+                >
+                  +{previewCo2.toFixed(3)} kg CO₂e
+                </span>
+              </div>
+            )}
+
+            {/* Source info */}
+            {selectedFactor && (
+              <div
+                className="text-[10px] px-3 py-2 rounded bg-[#f8f9fa] border border-[#dadce0] text-[#5f6368]"
+              >
+                Factor Source: <span className="font-semibold">BEIS 2024 / IPCC AR6 Reference</span> · Coefficient: {selectedFactor.co2eKgPerUnit} kg CO₂e per {selectedFactor.unit}
+              </div>
+            )}
+
+            {error && (
+              <p className="text-xs font-semibold text-center" style={{ color: '#d93025' }}>{error}</p>
+            )}
+
+            {/* Submit button */}
+            <button
+              onClick={handleSubmit}
+              disabled={!selectedFactor || !quantity || saving}
+              className="btn-primary justify-center cursor-pointer mt-2"
+              style={{
+                padding: '0.65rem',
+                fontSize: '0.875rem',
+                opacity: !selectedFactor || !quantity || saving ? 0.5 : 1,
+              }}
+            >
+              {saving ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} />
+                  Saving entry…
+                </>
+              ) : success ? (
+                <>
+                  <CheckCircle2 size={16} />
+                  Logged in console
+                </>
+              ) : (
+                <>
+                  <Plus size={16} />
+                  Log to today's records
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </main>
     </div>
