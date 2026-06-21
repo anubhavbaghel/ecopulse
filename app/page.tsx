@@ -14,12 +14,13 @@ export default function LandingPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!loading && user) {
-      if (profile && !profile.onboardingComplete) {
-        router.replace('/onboarding');
-      } else if (profile?.onboardingComplete) {
-        router.replace('/dashboard');
-      }
+    if (loading) return;
+    if (!user) return;
+    if (!profile) return;
+    if (!profile.onboardingComplete) {
+      router.replace('/onboarding');
+    } else {
+      router.replace('/dashboard');
     }
   }, [user, profile, loading, router]);
 
