@@ -31,8 +31,31 @@ export default function LandingPage() {
       await signInWithPopup(auth, provider);
       // Redirect handled by useEffect above
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Sign-in failed';
-      setError(msg.includes('popup-closed') ? 'Sign-in cancelled.' : 'Something went wrong. Please try again.');
+      // Log full error for debugging
+      console.error('Google sign-in error:', err);
+
+      // Normalize error information — Firebase errors often include a `code` and `message`.
+      const maybe = err as { code?: string; message?: string } | Error | string | undefined;
+      const code = (maybe && typeof maybe === 'object' && 'code' in maybe && (maybe as any).code) || undefined;
+      const message = (maybe && typeof maybe === 'object' && 'message' in maybe && (maybe as any).message) || (err instanceof Error ? err.message : undefined) || String(err ?? 'Sign-in failed');
+
+      // Detect user-closed popup (several formats may appear depending on SDK/version)
+      const isPopupCancel = Boolean(
+        (code && String(code).toLowerCase().includes('popup')) ||
+          String(message).toLowerCase().includes('popup') ||
+          String(message).toLowerCase().includes('popup-closed') ||
+          String(message).toLowerCase().includes('popup closed')
+      );
+
+      if (isPopupCancel) {
+        setError('Sign-in cancelled.');
+      } else if (code) {
+        // Surface the Firebase error code for easier debugging in the UI
+        setError(`${code}: ${message}`);
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+
       setSigning(false);
     }
   };
